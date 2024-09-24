@@ -8,7 +8,7 @@ export default {
     theme: {
         extend: {
             gridTemplateRows: {
-                factory: '1fr 8fr'
+                factory: '120px 1fr'
             },
             gridTemplateColumns: {
                 factory: '1fr 2fr'

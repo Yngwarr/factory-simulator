@@ -1,6 +1,6 @@
 import { render } from 'preact';
 import { LocationProvider, Route, Router } from 'preact-iso';
-import { FactoryPage } from './pages/Factory/index.js';
+import { FactoryPage } from './pages/factory/index.js';
 import { NotFound } from './pages/_404.jsx';
 import './style.css';
 
