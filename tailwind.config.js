@@ -11,7 +11,7 @@ export default {
                 factory: '120px 1fr',
             },
             gridTemplateColumns: {
-                factory: '1fr 2fr',
+                factory: '1fr 3fr',
             }
         },
     },
