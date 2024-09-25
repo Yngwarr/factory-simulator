@@ -46,3 +46,7 @@ export function renderTime(minutes: number, format: TimeFormat = 'amount') {
             return `${hours}:${minutesLeft < 10 ? `0${minutesLeft}` : `${minutesLeft}`}`;
     }
 }
+
+export function calculateCenter(rect: DOMRect) {
+    return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+}

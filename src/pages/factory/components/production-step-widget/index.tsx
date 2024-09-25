@@ -1,6 +1,6 @@
+import { resourceColor } from '@/utils';
+import type { Position, ProductionStep } from '@factory/utils';
 import { Package, Timer } from 'lucide-preact';
-import { resourceColor } from '../../../../utils';
-import type { Position, ProductionStep } from '../../utils';
 
 type Props = {
     step: ProductionStep;

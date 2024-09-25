@@ -46,6 +46,9 @@
             "nursery": {
                 "noDuplicateJsonKeys": "error"
             },
+            "a11y": {
+                "noSvgWithoutTitle": "off"
+            },
             "recommended": true
         }
     }
