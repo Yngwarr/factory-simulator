@@ -1,6 +1,6 @@
 import { useUnit } from 'effector-react';
 import { $$factoryModel } from '../../model';
-import { hashCode } from '../../../../utils';
+import { hashCode, renderTime } from '../../../../utils';
 import { ResourceWidget } from '../resource-widget';
 
 export function Resources() {
@@ -14,6 +14,7 @@ export function Resources() {
                     className="flex flex-row flex-nowrap gap-x-4"
                     key={hashCode(rs)}
                 >
+                    <div className="w-12">{renderTime(rs[0].setupTime)}</div>
                     {rs.map((r) => (
                         <ResourceWidget
                             key={r.id}
