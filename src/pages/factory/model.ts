@@ -1,22 +1,7 @@
 import { createStore } from 'effector';
+import { createResource, type Resource } from './utils';
 
-type Position = {
-    x: number;
-    y: number;
-};
-
-type ResourceState = "idle" | "setup" | "producing";
-
-type ResourceDesc = {
-    setupTime: number;
-    amount: number;
-    state?: ResourceState;
-    position?: Position;
-    // for "setup" and "producing"
-    timer?: number;
-};
-
-const resources = createStore<ResourceDesc[]>([
+const resources = createStore<Resource[][]>([
     {
         setupTime: 15,
         amount: 1,
@@ -27,18 +12,18 @@ const resources = createStore<ResourceDesc[]>([
     },
     {
         setupTime: 60,
-        amount: 2
+        amount: 2,
     },
     {
         setupTime: 30,
-        amount: 2
+        amount: 2,
     },
     {
         setupTime: 0,
-        amount: 1
+        amount: 1,
     },
-]);
+].map(createResource));
 
 export const $$factoryModel = {
-    resources
+    resources,
 };

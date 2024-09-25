@@ -7,11 +7,13 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@types/uuid": "^10.0.0",
 		"effector": "^23.2.2",
 		"effector-react": "^23.2.1",
 		"lucide-preact": "^0.445.0",
 		"preact": "^10.22.1",
-		"preact-iso": "^2.6.3"
+		"preact-iso": "^2.6.3",
+		"uuid": "^10.0.0"
 	},
 	"devDependencies": {
 		"@preact/preset-vite": "^2.9.0",
