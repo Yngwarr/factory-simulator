@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-type Position = {
+export type Position = {
     x: number;
     y: number;
 };
@@ -19,6 +19,19 @@ export type Resource = {
     state: ResourceState;
     position: Position;
     timer: number;
+};
+
+export type RawMaterial = {
+    x: number;
+    amount: number;
+    cost: number;
+};
+
+export type ProductionStep = {
+    position: Position;
+    resource: number;
+    time: number;
+    leftover: number;
 };
 
 export function createResource({ setupTime, amount }: ResourceDesc, resourceType: number): Resource[] {

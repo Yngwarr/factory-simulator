@@ -4,7 +4,7 @@ import { hashCode, renderTime } from '../../../../utils';
 import { ResourceWidget } from '../resource-widget';
 
 export function Resources() {
-    const { resources } = useUnit($$factoryModel);
+    const { $resources: resources } = useUnit($$factoryModel);
 
     return (
         <div className="flex flex-col flex-nowrap gap-y-4">

@@ -11,3 +11,47 @@ main {
     width: 100%;
     height: 100%;
 }
+
+.ik-grid-r1 { grid-template-rows: repeat(1, 1fr); }
+.ik-grid-r2 { grid-template-rows: repeat(2, 1fr); }
+.ik-grid-r3 { grid-template-rows: repeat(3, 1fr); }
+.ik-grid-r4 { grid-template-rows: repeat(4, 1fr); }
+.ik-grid-r5 { grid-template-rows: repeat(5, 1fr); }
+.ik-grid-r6 { grid-template-rows: repeat(6, 1fr); }
+.ik-grid-r7 { grid-template-rows: repeat(7, 1fr); }
+.ik-grid-r8 { grid-template-rows: repeat(8, 1fr); }
+.ik-grid-r9 { grid-template-rows: repeat(9, 1fr); }
+.ik-grid-r10 { grid-template-rows: repeat(10, 1fr); }
+
+.ik-grid-c1 { grid-template-columns: repeat(1, 1fr); }
+.ik-grid-c2 { grid-template-columns: repeat(2, 1fr); }
+.ik-grid-c3 { grid-template-columns: repeat(3, 1fr); }
+.ik-grid-c4 { grid-template-columns: repeat(4, 1fr); }
+.ik-grid-c5 { grid-template-columns: repeat(5, 1fr); }
+.ik-grid-c6 { grid-template-columns: repeat(6, 1fr); }
+.ik-grid-c7 { grid-template-columns: repeat(7, 1fr); }
+.ik-grid-c8 { grid-template-columns: repeat(8, 1fr); }
+.ik-grid-c9 { grid-template-columns: repeat(9, 1fr); }
+.ik-grid-c10 { grid-template-columns: repeat(10, 1fr); }
+
+.ik-grid-x-0 { grid-column-start: 1; grid-column-end: 2; }
+.ik-grid-x-1 { grid-column-start: 2; grid-column-end: 3; }
+.ik-grid-x-2 { grid-column-start: 3; grid-column-end: 4; }
+.ik-grid-x-3 { grid-column-start: 4; grid-column-end: 5; }
+.ik-grid-x-4 { grid-column-start: 5; grid-column-end: 6; }
+.ik-grid-x-5 { grid-column-start: 6; grid-column-end: 7; }
+.ik-grid-x-6 { grid-column-start: 7; grid-column-end: 8; }
+.ik-grid-x-7 { grid-column-start: 8; grid-column-end: 9; }
+.ik-grid-x-8 { grid-column-start: 9; grid-column-end: 10; }
+.ik-grid-x-9 { grid-column-start: 10; grid-column-end: 11; }
+
+.ik-grid-y-0 { grid-row-start: 1; grid-row-end: 2; }
+.ik-grid-y-1 { grid-row-start: 2; grid-row-end: 3; }
+.ik-grid-y-2 { grid-row-start: 3; grid-row-end: 4; }
+.ik-grid-y-3 { grid-row-start: 4; grid-row-end: 5; }
+.ik-grid-y-4 { grid-row-start: 5; grid-row-end: 6; }
+.ik-grid-y-5 { grid-row-start: 6; grid-row-end: 7; }
+.ik-grid-y-6 { grid-row-start: 7; grid-row-end: 8; }
+.ik-grid-y-7 { grid-row-start: 8; grid-row-end: 9; }
+.ik-grid-y-8 { grid-row-start: 9; grid-row-end: 10; }
+.ik-grid-y-9 { grid-row-start: 10; grid-row-end: 11; }

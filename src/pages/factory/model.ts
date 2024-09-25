@@ -1,29 +1,48 @@
-import { createStore } from 'effector';
-import { createResource, type Resource } from './utils';
+import { createStore, sample } from 'effector';
+import {
+    createResource,
+    type Position,
+    type ProductionStep,
+    type RawMaterial,
+    type Resource,
+} from './utils';
+import { defaultRawMaterials, defaultResources, defaultSteps } from './defaults';
 
-const resources = createStore<Resource[][]>([
-    {
-        setupTime: 15,
-        amount: 1,
-    },
-    {
-        setupTime: 120,
-        amount: 2,
-    },
-    {
-        setupTime: 60,
-        amount: 2,
-    },
-    {
-        setupTime: 30,
-        amount: 2,
-    },
-    {
-        setupTime: 0,
-        amount: 1,
-    },
-].map(createResource));
+function dimensionsFromSteps(steps: ProductionStep[]) {
+    const dimensions = { x: 0, y: 0 };
+
+    for (const step of steps) {
+        const pos = step.position;
+
+        if (pos.x > dimensions.x) {
+            dimensions.x = pos.x;
+        }
+
+        if (pos.y > dimensions.y) {
+            dimensions.y = pos.y;
+        }
+    }
+
+    return dimensions;
+}
+
+const $resources = createStore<Resource[][]>(defaultResources.map(createResource));
+
+const $rawMaterials = createStore<RawMaterial[]>(defaultRawMaterials);
+
+const $steps = createStore<ProductionStep[]>(defaultSteps);
+
+const $dimensions = createStore<Position>(dimensionsFromSteps(defaultSteps));
+
+sample({
+    clock: $steps,
+    fn: dimensionsFromSteps,
+    target: $dimensions,
+});
 
 export const $$factoryModel = {
-    resources,
+    $resources,
+    $rawMaterials,
+    $steps,
+    $dimensions
 };
