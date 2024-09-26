@@ -34,6 +34,11 @@ export type ProductionStep = {
     leftover: number;
 };
 
+export type ProductionLink = {
+    from: Position;
+    to: Position;
+};
+
 export function createResource({ setupTime, amount }: ResourceDesc, resourceType: number): Resource[] {
     const result = [];
 

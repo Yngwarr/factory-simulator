@@ -144,3 +144,23 @@ export const defaultSteps = [
         leftover: 0,
     },
 ];
+
+export const defaultLinks = [
+    { from: { x: 0, y: 0 }, to: { x: 1, y: 1 } },
+    { from: { x: 0, y: 2 }, to: { x: 0, y: 3 } },
+    { from: { x: 0, y: 3 }, to: { x: 0, y: 4 } },
+    { from: { x: 0, y: 4 }, to: { x: 0, y: 6 } },
+    { from: { x: 1, y: 1 }, to: { x: 0, y: 2 } },
+    { from: { x: 1, y: 1 }, to: { x: 2, y: 2 } },
+    { from: { x: 2, y: 0 }, to: { x: 1, y: 1 } },
+    { from: { x: 2, y: 2 }, to: { x: 3, y: 3 } },
+    { from: { x: 3, y: 3 }, to: { x: 3, y: 6 } },
+    { from: { x: 4, y: 0 }, to: { x: 4, y: 1 } },
+    { from: { x: 4, y: 1 }, to: { x: 4, y: 2 } },
+    { from: { x: 4, y: 2 }, to: { x: 3, y: 3 } },
+    { from: { x: 5, y: 0 }, to: { x: 5, y: 1 } },
+    { from: { x: 5, y: 1 }, to: { x: 5, y: 2 } },
+    { from: { x: 5, y: 2 }, to: { x: 5, y: 3 } },
+    { from: { x: 5, y: 3 }, to: { x: 5, y: 5 } },
+    { from: { x: 5, y: 5 }, to: { x: 5, y: 6 } },
+]

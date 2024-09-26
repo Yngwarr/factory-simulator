@@ -1,12 +1,13 @@
 import { createStore, sample } from 'effector';
 import {
     createResource,
+    type ProductionLink,
     type Position,
     type ProductionStep,
     type RawMaterial,
     type Resource,
 } from './utils';
-import { defaultRawMaterials, defaultResources, defaultSteps } from './defaults';
+import { defaultLinks, defaultRawMaterials, defaultResources, defaultSteps } from './defaults';
 
 function dimensionsFromSteps(steps: ProductionStep[]) {
     const dimensions = { x: 0, y: 0 };
@@ -27,10 +28,9 @@ function dimensionsFromSteps(steps: ProductionStep[]) {
 }
 
 const $resources = createStore<Resource[][]>(defaultResources.map(createResource));
-
 const $rawMaterials = createStore<RawMaterial[]>(defaultRawMaterials);
-
 const $steps = createStore<ProductionStep[]>(defaultSteps);
+const $links = createStore<ProductionLink[]>(defaultLinks);
 
 const $dimensions = createStore<Position>(dimensionsFromSteps(defaultSteps));
 
@@ -44,5 +44,6 @@ export const $$factoryModel = {
     $resources,
     $rawMaterials,
     $steps,
+    $links,
     $dimensions
 };
