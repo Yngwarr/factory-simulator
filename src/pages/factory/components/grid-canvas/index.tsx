@@ -15,12 +15,12 @@ export function GridCanvas() {
     return (
         <svg
             style={{
-                width: width,
-                height: height,
+                width,
+                height,
                 left: rect?.left,
                 top: rect?.top
             }}
-            viewBox={`0 0 ${width} ${height}`}
+            // viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="none"
             className={[
                 'absolute',

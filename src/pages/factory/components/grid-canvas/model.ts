@@ -6,6 +6,10 @@ const $rect = createStore<DOMRect>(new DOMRect());
 
 sample({
     clock: setRect,
+    fn: (rect) => {
+        console.log(`${rect.x}, ${rect.y}, ${rect.width}, ${rect.height}`);
+        return rect;
+    },
     target: $rect
 });
 
