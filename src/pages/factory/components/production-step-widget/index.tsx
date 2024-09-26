@@ -1,6 +1,6 @@
 import { resourceColor } from '@/utils';
 import type { Position, ProductionStep } from '@factory/utils';
-import { Banknote, ChevronsUp, Package, Timer } from 'lucide-preact';
+import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
 
 type Props = {
     step: ProductionStep;
@@ -42,6 +42,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                     {finishedProduct.cost}
                 </div>
             )}
+
             <div
                 className={[
                     'bg-white',
@@ -56,6 +57,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 <Package className="inline" />
                 {step.leftover}
             </div>
+
             <div
                 className={[
                     resourceColor(resource),
@@ -69,6 +71,26 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 <Timer className="inline" />
                 {step.time}
             </div>
+
+            {rawMaterial && (
+                <div
+                    className={[
+                        'bg-gray-200',
+                        'text-black',
+                        'rounded',
+                        'border-2',
+                        'border-gray-400',
+                        'mx-3',
+                        'px-2',
+                        'py-1',
+                    ].join(' ')}
+                >
+                    <Pickaxe className='inline' />
+                    {rawMaterial.amount}
+                    <Banknote className='inline px-1' />
+                    {rawMaterial.cost}
+                </div>
+            )}
         </div>
     );
 }

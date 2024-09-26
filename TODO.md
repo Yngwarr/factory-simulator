@@ -1,7 +1,6 @@
 # TODO
 
-- [ ] Add raw materials to the chain.
-- [ ] Improve design of the resources.
+- [ ] Improve design of resources.
 - [ ] Make resources assignable.
 - [ ] Add step button to the control panel.
 - [ ] Improve design of the control panel.
@@ -10,3 +9,6 @@
 - [ ] Visualize setup.
 - [ ] Visualize production.
 - [ ] Visualize resource movement.
+- [ ] Redesign money labels as small labels, maybe?
+
+- [x] Add raw materials to the chain.

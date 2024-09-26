@@ -28,13 +28,6 @@ export const defaultResources: ResourceDesc[] = [
     },
 ];
 
-export const defaultRawMaterials: RawMaterial[] = [
-    { x: 0, amount: 65, cost: 20 },
-    { x: 2, amount: 65, cost: 15 },
-    { x: 4, amount: 35, cost: 60 },
-    { x: 5, amount: 30, cost: 35 },
-];
-
 export const defaultSteps: ProductionStep[] = [
     {
         position: { x: 0, y: 0 },
