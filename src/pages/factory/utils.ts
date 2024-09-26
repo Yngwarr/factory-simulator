@@ -32,6 +32,14 @@ export type ProductionStep = {
     resource: number;
     time: number;
     leftover: number;
+    rawMaterial?: {
+        cost: number;
+        amount: number;
+    },
+    finishedProduct?: {
+        cost: number;
+        demand: number;
+    }
 };
 
 export type ProductionLink = {

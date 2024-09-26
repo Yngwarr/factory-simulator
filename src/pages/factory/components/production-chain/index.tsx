@@ -11,6 +11,7 @@ export function ProductionChain() {
     const ref = createRef();
 
     useEffect(() => {
+        console.log('op!')
         setRect(ref.current.getBoundingClientRect());
     }, [ref, setRect]);
 

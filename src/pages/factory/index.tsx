@@ -7,12 +7,19 @@ export function FactoryPage() {
 	return (
 		<div
 			id="factory"
-			className="w-full h-full grid grid-cols-factory grid-rows-factory"
+			className={[
+				'w-full',
+				'h-full',
+				'p-6',
+				'grid',
+				'grid-cols-factory',
+				'grid-rows-factory',
+			].join(' ')}
 		>
 			<Heading className="col-span-2" />
 			<Resources />
 			<ProductionChain />
-            <GridCanvas />
+			<GridCanvas />
 		</div>
 	);
 }

@@ -41,24 +41,40 @@ export const defaultSteps: ProductionStep[] = [
         resource: 1,
         time: 4,
         leftover: 0,
+        rawMaterial: {
+            cost: 30,
+            amount: 0
+        }
     },
     {
         position: { x: 2, y: 0 },
         resource: 1,
         time: 5,
         leftover: 0,
+        rawMaterial: {
+            cost: 35,
+            amount: 0
+        }
     },
     {
         position: { x: 4, y: 0 },
         resource: 2,
         time: 9,
         leftover: 0,
+        rawMaterial: {
+            cost: 30,
+            amount: 0
+        }
     },
     {
         position: { x: 5, y: 0 },
         resource: 1,
         time: 15,
         leftover: 0,
+        rawMaterial: {
+            cost: 65,
+            amount: 0
+        }
     },
     {
         position: { x: 1, y: 1 },
@@ -137,18 +153,30 @@ export const defaultSteps: ProductionStep[] = [
         resource: 2,
         time: 18,
         leftover: 0,
+        finishedProduct: {
+            cost: 180,
+            demand: 40
+        }
     },
     {
         position: { x: 3, y: 6 },
         resource: 2,
         time: 6,
         leftover: 0,
+        finishedProduct: {
+            cost: 240,
+            demand: 50
+        }
     },
     {
         position: { x: 5, y: 6 },
         resource: 2,
         time: 10,
         leftover: 0,
+        finishedProduct: {
+            cost: 180,
+            demand: 40
+        }
     },
 ];
 
