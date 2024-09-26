@@ -1,19 +1,14 @@
-import { useUnit } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import { ProductionStepWidget } from '../production-step-widget';
 import { $$factoryModel } from '@factory/model';
 import { createRef } from 'preact';
-import { useEffect } from 'preact/hooks';
-import { $$canvasModel } from '../grid-canvas/model';
+import { windowGate } from '../grid-canvas/model';
 
 export function ProductionChain() {
-    const { setRect } = useUnit($$canvasModel);
     const { $steps: steps, $dimensions: dimensions } = useUnit($$factoryModel);
     const ref = createRef();
 
-    useEffect(() => {
-        console.log('op!')
-        setRect(ref.current.getBoundingClientRect());
-    }, [ref, setRect]);
+    useGate(windowGate, ref);
 
     return (
         <div ref={ref}>

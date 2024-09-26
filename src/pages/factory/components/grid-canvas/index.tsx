@@ -1,6 +1,8 @@
 import { $$factoryModel } from '@factory/model';
 import { useUnit } from 'effector-react';
 import { $$canvasModel, getCanvasPosition } from './model';
+import { useEffect } from 'preact/hooks';
+import { $$appModel } from '@/model';
 
 export function GridCanvas() {
     const { $rect: rect } = useUnit($$canvasModel);

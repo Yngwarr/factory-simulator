@@ -18,6 +18,6 @@ export function App() {
 	);
 }
 
-addEventListener('resize', () => { $$appModel.windowResize });
+addEventListener('resize', () => { $$appModel.windowResize() });
 
 render(<App />, document.getElementById('app'));
