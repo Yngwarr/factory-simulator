@@ -54,5 +54,10 @@ export const $$testingModel = {
 
 sample({
     clock: $$testingModel.setRect,
+    fn: (x) => {
+        console.log(x.height);
+        return x;
+    },
     target: $$testingModel.$rect
 });
+

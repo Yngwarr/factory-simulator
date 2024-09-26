@@ -18,7 +18,7 @@ export function ProductionChain() {
                     `ik-grid-r${dimensions.y + 1}`,
                 ].join(' ')}
             >
-                <GridCanvas />
+                <GridCanvas dimensions={dimensions} />
                 {steps.map((step) => (
                     <ProductionStepWidget
                         key={JSON.stringify(step.position)}
