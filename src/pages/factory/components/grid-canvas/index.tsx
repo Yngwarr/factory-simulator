@@ -14,6 +14,10 @@ export function GridCanvas() {
     const width = rect?.width;
     const height = rect?.height;
 
+    useEffect(() => {
+        $$appModel.windowResize();
+    }, []);
+
     return (
         <svg
             style={{
