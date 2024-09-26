@@ -1,4 +1,11 @@
-export const defaultResources = [
+import type {
+    ProductionLink,
+    ProductionStep,
+    RawMaterial,
+    ResourceDesc,
+} from './utils';
+
+export const defaultResources: ResourceDesc[] = [
     {
         setupTime: 15,
         amount: 1,
@@ -21,14 +28,14 @@ export const defaultResources = [
     },
 ];
 
-export const defaultRawMaterials = [
+export const defaultRawMaterials: RawMaterial[] = [
     { x: 0, amount: 65, cost: 20 },
     { x: 2, amount: 65, cost: 15 },
     { x: 4, amount: 35, cost: 60 },
     { x: 5, amount: 30, cost: 35 },
 ];
 
-export const defaultSteps = [
+export const defaultSteps: ProductionStep[] = [
     {
         position: { x: 0, y: 0 },
         resource: 1,
@@ -145,7 +152,7 @@ export const defaultSteps = [
     },
 ];
 
-export const defaultLinks = [
+export const defaultLinks: ProductionLink[] = [
     { from: { x: 0, y: 0 }, to: { x: 1, y: 1 } },
     { from: { x: 0, y: 2 }, to: { x: 0, y: 3 } },
     { from: { x: 0, y: 3 }, to: { x: 0, y: 4 } },
@@ -163,4 +170,4 @@ export const defaultLinks = [
     { from: { x: 5, y: 2 }, to: { x: 5, y: 3 } },
     { from: { x: 5, y: 3 }, to: { x: 5, y: 5 } },
     { from: { x: 5, y: 5 }, to: { x: 5, y: 6 } },
-]
+];

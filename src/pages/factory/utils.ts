@@ -7,7 +7,7 @@ export type Position = {
 
 type ResourceState = 'standby' | 'idle' | 'setup' | 'producing';
 
-type ResourceDesc = {
+export type ResourceDesc = {
     setupTime: number;
     amount: number;
 };
