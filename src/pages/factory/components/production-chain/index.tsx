@@ -19,7 +19,6 @@ export function ProductionChain() {
             <div
                 className={[
                     'grid',
-                    'gap-6',
                     'w-full',
                     'h-full',
                     `ik-grid-c${dimensions.x + 1}`,

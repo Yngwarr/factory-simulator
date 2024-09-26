@@ -6,8 +6,8 @@ export function GridCanvas() {
     const { $rect: rect } = useUnit($$canvasModel);
     const { $dimensions: dimensions } = useUnit($$factoryModel);
 
-    const stepX = rect?.width / (dimensions.x + 1);
-    const stepY = rect?.width / (dimensions.y + 1);
+    const stepX = 100 / (dimensions.x + 1);
+    const stepY = 100 / (dimensions.y + 1);
 
     const width = rect?.width;
     const height = rect?.height;
@@ -18,23 +18,18 @@ export function GridCanvas() {
                 width,
                 height,
                 left: rect?.left,
-                top: rect?.top
+                top: rect?.top,
             }}
-            // viewBox={`0 0 ${width} ${height}`}
-            preserveAspectRatio="none"
-            className={[
-                'absolute',
-                'underlay',
-            ].join(' ')}
+            className={['absolute', 'underlay'].join(' ')}
         >
             {[...Array(dimensions.x + 2).keys()].map((x) => {
                 const pos = stepX * x;
                 return (
                     <line
                         key={pos}
-                        x1={pos}
+                        x1={`${pos}%`}
                         y1={0}
-                        x2={pos}
+                        x2={`${pos}%`}
                         y2={height}
                         stroke="grey"
                         strokeWidth={3}
@@ -48,9 +43,9 @@ export function GridCanvas() {
                     <line
                         key={pos}
                         x1={0}
-                        y1={pos}
+                        y1={`${pos}%`}
                         x2={width}
-                        y2={pos}
+                        y2={`${pos}%`}
                         stroke="grey"
                         strokeWidth={3}
                     />
