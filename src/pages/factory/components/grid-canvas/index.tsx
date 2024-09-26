@@ -1,29 +1,10 @@
-import { $$testingModel } from '@factory/model';
-import type { Position } from '@factory/utils';
 import { useUnit } from 'effector-react';
-import { createRef } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { $$canvasModel } from './model';
+import { $$factoryModel } from '@factory/model';
 
-type Props = {
-    dimensions: Position;
-};
-
-export function GridCanvas({ dimensions }: Props) {
-    const ref = createRef();
-    const { setRect, $rect: rect } = useUnit($$testingModel);
-
-    useEffect(() => {
-        const newRect = ref.current.getBoundingClientRect();
-        // if (
-        //     newRect.x === rect.x &&
-        //     newRect.y === rect.y &&
-        //     newRect.width === rect.width &&
-        //     newRect.height === rect.height
-        // ) {
-        //     return;
-        // }
-        setRect(newRect);
-    }, [ref, setRect]);
+export function GridCanvas() {
+    const { $rect: rect } = useUnit($$canvasModel);
+    const { $dimensions: dimensions } = useUnit($$factoryModel);
 
     const stepX = rect?.width / (dimensions.x + 1);
     const stepY = rect?.width / (dimensions.y + 1);
@@ -33,15 +14,17 @@ export function GridCanvas({ dimensions }: Props) {
 
     return (
         <svg
-            ref={ref}
+            style={{
+                width: width,
+                height: height,
+                left: rect?.left,
+                top: rect?.top
+            }}
             viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="none"
             className={[
-                'w-full',
-                'h-full',
+                'absolute',
                 'underlay',
-                `ik-grid-wide-x-${dimensions.x}`,
-                `ik-grid-wide-y-${dimensions.y}`,
             ].join(' ')}
         >
             {[...Array(dimensions.x + 2).keys()].map((x) => {

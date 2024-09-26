@@ -1,3 +1,4 @@
+import { GridCanvas } from './components/grid-canvas';
 import { Heading } from './components/heading';
 import { ProductionChain } from './components/production-chain';
 import { Resources } from './components/resources';
@@ -11,6 +12,7 @@ export function FactoryPage() {
 			<Heading className="col-span-2" />
 			<Resources />
 			<ProductionChain />
+            <GridCanvas />
 		</div>
 	);
 }

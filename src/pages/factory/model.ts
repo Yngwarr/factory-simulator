@@ -1,4 +1,4 @@
-import { createEvent, createStore, sample } from 'effector';
+import { createStore, sample } from 'effector';
 import {
     createResource,
     type Position,
@@ -46,18 +46,3 @@ export const $$factoryModel = {
     $steps,
     $dimensions
 };
-
-export const $$testingModel = {
-    $rect: createStore<DOMRect>(new DOMRect()),
-    setRect: createEvent<DOMRect>()
-}
-
-sample({
-    clock: $$testingModel.setRect,
-    fn: (x) => {
-        console.log(x.height);
-        return x;
-    },
-    target: $$testingModel.$rect
-});
-
