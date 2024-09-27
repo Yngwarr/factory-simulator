@@ -1,7 +1,6 @@
 import type {
     ProductionLink,
     ProductionStep,
-    RawMaterial,
     ResourceDesc,
 } from './utils';
 

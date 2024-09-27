@@ -5,7 +5,7 @@ export type Position = {
     y: number;
 };
 
-type ResourceState = 'standby' | 'idle' | 'setup' | 'producing';
+type ResourceState = 'idle' | 'setup' | 'prod';
 
 export type ResourceDesc = {
     setupTime: number;
@@ -17,14 +17,7 @@ export type Resource = {
     type: number;
     setupTime: number;
     state: ResourceState;
-    position: Position;
-    timer: number;
-};
-
-export type RawMaterial = {
-    x: number;
-    amount: number;
-    cost: number;
+    position?: Position;
 };
 
 export type ProductionStep = {
@@ -35,11 +28,11 @@ export type ProductionStep = {
     rawMaterial?: {
         cost: number;
         amount: number;
-    },
+    };
     finishedProduct?: {
         cost: number;
         demand: number;
-    }
+    };
 };
 
 export type ProductionLink = {
@@ -47,7 +40,10 @@ export type ProductionLink = {
     to: Position;
 };
 
-export function createResource({ setupTime, amount }: ResourceDesc, resourceType: number): Resource[] {
+export function createResource(
+    { setupTime, amount }: ResourceDesc,
+    resourceType: number,
+): Resource[] {
     const result = [];
 
     for (let i = 0; i < amount; ++i) {
@@ -55,11 +51,17 @@ export function createResource({ setupTime, amount }: ResourceDesc, resourceType
             id: uuid(),
             type: resourceType,
             setupTime,
-            state: 'standby',
-            position: { x: 0, y: 0 },
-            timer: 0,
+            state: 'idle',
         });
     }
 
     return result;
+}
+
+export function renderPosition(position: Position) {
+    if (position === undefined) {
+        return '—';
+    }
+
+    return `(${position.x}, ${position.y})`;
 }
