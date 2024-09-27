@@ -11,10 +11,24 @@ export function Resources() {
             <h1>Resources</h1>
             {resources.map((rs) => (
                 <div
-                    className="flex flex-row flex-nowrap gap-x-4"
+                    className={[
+                        'flex',
+                        'flex-row',
+                        'flex-nowrap',
+                        'gap-x-4',
+                        'content-center',
+                    ].join(' ')}
                     key={hashCode(rs)}
                 >
-                    <div className="w-12">{renderTime(rs[0].setupTime)}</div>
+                    <span
+                        style={{
+                            verticalAlign: 'middle',
+                            lineHeight: '3.5rem',
+                        }}
+                        className="w-12 h-14 text-center"
+                    >
+                        {renderTime(rs[0].setupTime)}
+                    </span>
                     {rs.map((r) => (
                         <ResourceWidget
                             key={r.id}
