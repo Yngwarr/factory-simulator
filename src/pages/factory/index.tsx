@@ -10,7 +10,8 @@ export function FactoryPage() {
 			className={[
 				'w-full',
 				'h-full',
-				'p-6',
+				'px-6',
+				'pb-6',
 				'grid',
 				'grid-cols-factory',
 				'grid-rows-factory',

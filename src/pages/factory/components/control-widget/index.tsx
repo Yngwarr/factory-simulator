@@ -1,20 +1,38 @@
-import { FastForward, Pause, Play } from 'lucide-preact';
+import { FastForward, Pause, Play, StepForward } from 'lucide-preact';
 
 function ControlButton({ children }) {
-    return (<button type="button">{children}</button>);
+    return (
+        <button
+            className={[
+                'border-2',
+                'rounded-md',
+                'p-2',
+                'control-button',
+                'hover:bg-gray-700',
+                'active:bg-gray-600',
+                'active:scale-90',
+            ].join(' ')}
+            type="button"
+        >
+            {children}
+        </button>
+    );
 }
 
 export function ControlWidget() {
     return (
-        <div>
+        <div className="flex flex-row flex-nowrap items-start text-2xl gap-x-2">
             <ControlButton>
-                <Pause />
+                <Pause size={32} />
             </ControlButton>
             <ControlButton>
-                <Play />
+                <Play size={32} />
             </ControlButton>
             <ControlButton>
-                <FastForward />
+                <StepForward size={32} />
+            </ControlButton>
+            <ControlButton>
+                <FastForward size={32} />
             </ControlButton>
         </div>
     );

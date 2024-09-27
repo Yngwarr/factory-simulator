@@ -1,4 +1,4 @@
-import { createStore, sample } from 'effector';
+import { createEvent, createStore, sample } from 'effector';
 import {
     createResource,
     type ProductionLink,
@@ -26,11 +26,20 @@ function dimensionsFromSteps(steps: ProductionStep[]) {
     return dimensions;
 }
 
-const $resources = createStore<Resource[][]>(defaultResources.map(createResource));
+const $resources = createStore<Resource[][]>(
+    defaultResources.map(createResource),
+);
 const $steps = createStore<ProductionStep[]>(defaultSteps);
 const $links = createStore<ProductionLink[]>(defaultLinks);
+const $week = createStore<number>(1);
+const $day = createStore<number>(1);
+const $timeMinutes = createStore<number>(0);
+const $cash = createStore<number>(10000);
+const $fixedExpenses = createStore<number>(11000);
 
 const $dimensions = createStore<Position>(dimensionsFromSteps(defaultSteps));
+
+const addCash = createEvent<number>();
 
 sample({
     clock: $steps,
@@ -38,9 +47,22 @@ sample({
     target: $dimensions,
 });
 
+sample({
+    clock: addCash,
+    source: $cash,
+    fn: (cash, addedValue) => cash + addedValue,
+    target: $cash,
+});
+
 export const $$factoryModel = {
     $resources,
     $steps,
     $links,
-    $dimensions
+    $week,
+    $day,
+    $timeMinutes,
+    $cash,
+    $fixedExpenses,
+    $dimensions,
+    addCash,
 };

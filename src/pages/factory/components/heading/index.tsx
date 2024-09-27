@@ -8,7 +8,14 @@ type Props = {
 export function Heading(props: Props) {
     return (
         <div
-            className={`flex flex-row flex-nowrap justify-between ${props.className}`}
+            className={[
+                'flex',
+                'flex-row',
+                'flex-nowrap',
+                'justify-between',
+                'items-center',
+                props.className,
+            ].join(' ')}
         >
             <InfoWidget />
             <ControlWidget />
