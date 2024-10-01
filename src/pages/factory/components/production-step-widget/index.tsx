@@ -1,6 +1,8 @@
 import { resourceColor } from '@/utils';
 import type { Position, ProductionStep } from '@factory/utils';
 import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
+import { $$factoryModel } from '@factory/model';
+import { useUnit } from 'effector-react';
 
 type Props = {
     step: ProductionStep;
@@ -9,6 +11,11 @@ type Props = {
 
 export function ProductionStepWidget({ step, dimensions }: Props) {
     const { resource, position, rawMaterial, finishedProduct } = step;
+    const { selectStep } = useUnit($$factoryModel);
+
+    const handleClick = () => {
+        selectStep(step.id);
+    };
 
     return (
         <div
@@ -20,6 +27,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 'justify-center',
                 'items-center',
             ].join(' ')}
+            onClick={handleClick}
         >
             {finishedProduct && (
                 <div
@@ -36,9 +44,9 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                         'py-1',
                     ].join(' ')}
                 >
-                    <ChevronsUp className='inline' />
+                    <ChevronsUp className="inline" />
                     {finishedProduct.demand}
-                    <Banknote className='inline px-1' />
+                    <Banknote className="inline px-1" />
                     {finishedProduct.cost}
                 </div>
             )}
@@ -85,9 +93,9 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                         'py-1',
                     ].join(' ')}
                 >
-                    <Pickaxe className='inline' />
+                    <Pickaxe className="inline" />
                     {rawMaterial.amount}
-                    <Banknote className='inline px-1' />
+                    <Banknote className="inline px-1" />
                     {rawMaterial.cost}
                 </div>
             )}

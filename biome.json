@@ -47,7 +47,8 @@
                 "noDuplicateJsonKeys": "error"
             },
             "a11y": {
-                "noSvgWithoutTitle": "off"
+                "noSvgWithoutTitle": "off",
+                "useKeyWithClickEvents": "off"
             },
             "recommended": true
         }

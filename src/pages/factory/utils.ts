@@ -21,6 +21,7 @@ export type Resource = {
 };
 
 export type ProductionStep = {
+    id?: string;
     position: Position;
     resource: number;
     time: number;
