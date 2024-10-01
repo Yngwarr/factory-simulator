@@ -2,7 +2,6 @@ import { $$appModel } from '@/model';
 import type { Position } from '@factory/utils';
 import {
     attach,
-    createEffect,
     createEvent,
     createStore,
     sample,

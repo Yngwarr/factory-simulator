@@ -4,20 +4,31 @@ import { NotFound } from './pages/_404.jsx';
 import { FactoryPage } from './pages/factory/index.js';
 import './style.css';
 import { $$appModel } from './model.js';
+import { AppState, createAppState } from './signals.js';
 
 export function App() {
-	return (
-		<LocationProvider>
-			<main>
-				<Router>
-					<Route path="/" component={FactoryPage} />
-					<Route default component={NotFound} />
-				</Router>
-			</main>
-		</LocationProvider>
-	);
+    return (
+        <AppState.Provider value={createAppState()}>
+            <LocationProvider>
+                <main>
+                    <Router>
+                        <Route
+                            path="/"
+                            component={FactoryPage}
+                        />
+                        <Route
+                            default
+                            component={NotFound}
+                        />
+                    </Router>
+                </main>
+            </LocationProvider>
+        </AppState.Provider>
+    );
 }
 
-addEventListener('resize', () => { $$appModel.windowResize() });
+addEventListener('resize', () => {
+    $$appModel.windowResize();
+});
 
 render(<App />, document.getElementById('app'));
