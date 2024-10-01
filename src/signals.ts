@@ -12,6 +12,6 @@ export function createAppState() {
     return { gridRect, gridRef };
 }
 
-export function setRect(context: StateType, rect: DOMRect) {
-    context.gridRect.value = rect;
+export function updateGridRect(ctx: StateType) {
+    ctx.gridRect.value = ctx.gridRef.value.current.getBoundingClientRect();
 }

@@ -1,30 +1,41 @@
+import { AppState, updateGridRect } from '@/signals';
 import { $$factoryModel } from '@factory/model';
+import type { Position } from '@factory/utils';
 import { useUnit } from 'effector-react';
-import { $$canvasModel, getCanvasPosition } from './model';
-import { useEffect } from 'preact/hooks';
-import { $$appModel } from '@/model';
+import { useContext, useEffect } from 'preact/hooks';
+
+export function getCanvasPosition(position: Position, dimensions: Position) {
+    const stepX = 100 / ((dimensions.x + 1) * 2);
+    const stepY = 100 / ((dimensions.y + 1) * 2);
+
+    return {
+        x: (position.x * 2 + 1) * stepX,
+        y: 100 - (position.y * 2 + 1) * stepY,
+    };
+}
 
 export function GridCanvas() {
-    const { $rect: rect } = useUnit($$canvasModel);
     const { $dimensions: dimensions, $links: links } = useUnit($$factoryModel);
+    const ctx = useContext(AppState);
+    const rect = ctx.gridRect;
 
     const stepX = 100 / (dimensions.x + 1);
     const stepY = 100 / (dimensions.y + 1);
 
-    const width = rect?.width;
-    const height = rect?.height;
+    const width = rect?.value?.width;
+    const height = rect?.value?.height;
 
     useEffect(() => {
-        $$appModel.windowResize();
-    }, []);
+        updateGridRect(ctx);
+    }, [ctx]);
 
     return (
         <svg
             style={{
                 width,
                 height,
-                left: rect?.left,
-                top: rect?.top,
+                left: rect?.value?.left,
+                top: rect?.value?.top,
             }}
             className={['absolute', 'underlay'].join(' ')}
         >
