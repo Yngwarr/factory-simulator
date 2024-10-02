@@ -4,12 +4,12 @@ import { useContext } from 'preact/hooks';
 import { factoryState } from '@factory/model';
 
 export function Resources() {
-    const ctx = useContext(factoryState);
+    const { groupedResources } = useContext(factoryState);
 
     return (
         <div className="flex flex-col flex-nowrap gap-y-4">
             <h1>Resources</h1>
-            {ctx.resources.value.map((rs) => (
+            {groupedResources.value.map((rs) => (
                 <div
                     className={[
                         'flex',

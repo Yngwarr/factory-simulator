@@ -15,6 +15,10 @@ export type FactoryState = ReturnType<typeof createFactoryState> | null;
 export const factoryState = createContext<FactoryState>(null);
 
 export function createFactoryState(factoryDesc: FactoryDesc) {
+    const resources = signal<Resource[]>(
+        factoryDesc.resources.flatMap(createResource),
+    );
+
     const steps = signal<ProductionStep[]>(
         factoryDesc.steps.map((x) => {
             x.id = uuid();
@@ -23,10 +27,7 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
     );
 
     return {
-        // TODO make it Resource[]
-        resources: signal<Resource[][]>(
-            factoryDesc.resources.map(createResource),
-        ),
+        resources,
         steps,
         week: signal(1),
         day: signal(1),
@@ -39,6 +40,21 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
 
         dimensions: computed<Position>(() => {
             return dimensionsFromSteps(steps.value);
+        }),
+        groupedResources: computed<Resource[][]>(() => {
+            const res = [];
+            let type = null;
+
+            for (const r of resources.value) {
+                if (r.type !== type) {
+                    type = r.type;
+                    res.push([r]);
+                } else {
+                    res.at(-1).push(r);
+                }
+            }
+
+            return res;
         }),
     };
 }
