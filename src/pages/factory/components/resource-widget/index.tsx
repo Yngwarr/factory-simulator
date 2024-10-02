@@ -1,9 +1,15 @@
-import { resourceColor } from '../../../../utils';
-import { renderPosition, type Resource } from '../../utils';
+import { FactoryState, factoryState } from '@factory/model';
 import { useContext } from 'preact/hooks';
-import { factoryState } from '@factory/model';
+import { resourceColor } from '../../../../utils';
+import { Position, type Resource, posEq, renderPosition } from '../../utils';
+import classNames from 'classnames';
 
 type Props = { resource: Resource };
+
+function shouldDuck(ctx: FactoryState, position: Position) {
+    return ctx.hoveredStepPosition.value !== null &&
+        !(position && posEq(position, ctx.hoveredStepPosition.value));
+}
 
 export function ResourceWidget({ resource }: Props) {
     const { type, state, position, id } = resource;
@@ -27,7 +33,7 @@ export function ResourceWidget({ resource }: Props) {
 
     return (
         <div
-            className={[
+            className={classNames(
                 resourceColor(type),
                 'rounded',
                 'px-2',
@@ -37,8 +43,10 @@ export function ResourceWidget({ resource }: Props) {
                 'ik-min-w-14',
                 'h-14',
                 'select-none',
+                'ik-smooth-transition',
                 selected && 'outline outline-4',
-            ].join(' ')}
+                shouldDuck(ctx, position) && 'grayscale'
+            )}
             onClick={handleClick}
             onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}

@@ -38,7 +38,9 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
         timeMinutes: signal(0),
         cash: signal(factoryDesc.cash),
         selectedResourceId,
+
         hoveredResourcePosition: signal<Position | null>(null),
+        hoveredStepPosition: signal<Position | null>(null),
 
         links: factoryDesc.links,
         fixedExpenses: factoryDesc.fixedExpenses,

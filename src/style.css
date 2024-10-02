@@ -29,6 +29,8 @@ h1 {
         scale .2s;
 }
 
+.ik-smooth-transition { transition: 'filter .5s' }
+
 .ik-min-w-14 { min-width: 3.5rem }
 
 .ik-grid-r1 { grid-template-rows: repeat(1, 1fr); }

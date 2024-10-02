@@ -33,11 +33,18 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
         }
     };
 
+    const handleEnter = () => {
+        if (!resourceId) return;
+        ctx.hoveredStepPosition.value = position;
+    }
+
+    const handleLeave = () => {
+        if (!resourceId) return;
+        ctx.hoveredStepPosition.value = null;
+    }
+
     return (
         <div
-            style={{
-                transition: 'filter .5s'
-            }}
             className={classNames([
                 `ik-grid-x-${position.x}`,
                 `ik-grid-y-${dimensions.y - position.y}`,
@@ -46,9 +53,12 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 'justify-center',
                 'items-center',
                 'select-none',
+                'ik-smooth-transition',
                 shouldDuck(ctx, position) && 'grayscale',
             ])}
             onClick={handleClick}
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
         >
             {finishedProduct && (
                 <div
