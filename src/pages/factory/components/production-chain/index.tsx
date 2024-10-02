@@ -3,11 +3,11 @@ import { ProductionStepWidget } from '../production-step-widget';
 import { $$factoryModel } from '@factory/model';
 import { createRef } from 'preact';
 import { useContext } from 'preact/hooks';
-import { AppState } from '@/signals';
+import { appState } from '@/signals';
 
 export function ProductionChain() {
     const { $steps: steps, $dimensions: dimensions } = useUnit($$factoryModel);
-    const { gridRef } = useContext(AppState)
+    const { gridRef } = useContext(appState)
 
     gridRef.value = createRef();
 

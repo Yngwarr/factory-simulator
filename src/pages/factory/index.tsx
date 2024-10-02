@@ -1,4 +1,4 @@
-import { AppState, updateGridRect } from '@/signals';
+import { appState, updateGridRect } from '@/signals';
 import { useContext, useEffect } from 'preact/hooks';
 import { GridCanvas } from './components/grid-canvas';
 import { Heading } from './components/heading';
@@ -6,7 +6,7 @@ import { ProductionChain } from './components/production-chain';
 import { Resources } from './components/resources';
 
 export function FactoryPage() {
-    const ctx = useContext(AppState);
+    const ctx = useContext(appState);
 
     useEffect(() => {
         const onUpdate = () => {

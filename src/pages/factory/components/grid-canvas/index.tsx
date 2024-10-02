@@ -1,4 +1,4 @@
-import { AppState, updateGridRect } from '@/signals';
+import { appState, updateGridRect } from '@/signals';
 import { $$factoryModel } from '@factory/model';
 import type { Position } from '@factory/utils';
 import { useUnit } from 'effector-react';
@@ -16,7 +16,7 @@ export function getCanvasPosition(position: Position, dimensions: Position) {
 
 export function GridCanvas() {
     const { $dimensions: dimensions, $links: links } = useUnit($$factoryModel);
-    const ctx = useContext(AppState);
+    const ctx = useContext(appState);
     const rect = ctx.gridRect;
 
     const stepX = 100 / (dimensions.x + 1);

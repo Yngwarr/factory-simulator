@@ -1,9 +1,9 @@
 import { signal } from '@preact/signals';
 import { createContext, type RefObject } from 'preact';
 
-export type StateType = ReturnType<typeof createAppState> | null;
+export type AppState = ReturnType<typeof createAppState> | null;
 
-export const AppState = createContext<StateType>(null);
+export const appState = createContext<AppState>(null);
 
 export function createAppState() {
     const gridRect = signal<DOMRect>();
@@ -12,6 +12,6 @@ export function createAppState() {
     return { gridRect, gridRef };
 }
 
-export function updateGridRect(ctx: StateType) {
+export function updateGridRect(ctx: AppState) {
     ctx.gridRect.value = ctx.gridRef.value.current.getBoundingClientRect();
 }

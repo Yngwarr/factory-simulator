@@ -7,7 +7,7 @@ import {
     type ProductionStep,
     type Resource,
 } from './utils';
-import { defaultLinks, defaultResources, defaultSteps } from './defaults';
+import { defaultFactory } from './defaults';
 
 function dimensionsFromSteps(steps: ProductionStep[]) {
     const dimensions = { x: 0, y: 0 };
@@ -28,22 +28,22 @@ function dimensionsFromSteps(steps: ProductionStep[]) {
 }
 
 const $resources = createStore<Resource[][]>(
-    defaultResources.map(createResource),
+    defaultFactory.resources.map(createResource),
 );
 const $steps = createStore<ProductionStep[]>(
-    defaultSteps.map((x) => {
+    defaultFactory.steps.map((x) => {
         x.id = uuid();
         return x;
     }),
 );
-const $links = createStore<ProductionLink[]>(defaultLinks);
+const $links = createStore<ProductionLink[]>(defaultFactory.links);
 const $week = createStore<number>(1);
 const $day = createStore<number>(1);
 const $timeMinutes = createStore<number>(0);
-const $cash = createStore<number>(10000);
-const $fixedExpenses = createStore<number>(11000);
+const $cash = createStore<number>(defaultFactory.cash);
+const $fixedExpenses = createStore<number>(defaultFactory.fixedExpenses);
 
-const $dimensions = createStore<Position>(dimensionsFromSteps(defaultSteps));
+const $dimensions = createStore<Position>(dimensionsFromSteps(defaultFactory.steps));
 const $selectedResource = createStore<string | null>(null);
 
 const addCash = createEvent<number>();

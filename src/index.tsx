@@ -4,11 +4,11 @@ import { NotFound } from './pages/_404.jsx';
 import { FactoryPage } from './pages/factory/index.js';
 import './style.css';
 import { $$appModel } from './model.js';
-import { AppState, createAppState } from './signals.js';
+import { appState, createAppState } from './signals.js';
 
 export function App() {
     return (
-        <AppState.Provider value={createAppState()}>
+        <appState.Provider value={createAppState()}>
             <LocationProvider>
                 <main>
                     <Router>
@@ -23,7 +23,7 @@ export function App() {
                     </Router>
                 </main>
             </LocationProvider>
-        </AppState.Provider>
+        </appState.Provider>
     );
 }
 
