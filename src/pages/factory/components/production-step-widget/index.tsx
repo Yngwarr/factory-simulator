@@ -1,6 +1,6 @@
 import { resourceColor } from '@/utils';
 import { assignSelectedResource, factoryState } from '@factory/model';
-import type { Position, ProductionStep } from '@factory/utils';
+import { posEq, type Position, type ProductionStep } from '@factory/utils';
 import classNames from 'classnames';
 import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
 import { useContext } from 'preact/hooks';
@@ -9,6 +9,11 @@ type Props = {
     step: ProductionStep;
     dimensions: Position;
 };
+
+function shouldDuck(ctx: FactoryState, position: Position) {
+    return ctx.hoveredResourcePosition.value !== null &&
+        !posEq(position, ctx.hoveredResourcePosition.value);
+}
 
 export function ProductionStepWidget({ step, dimensions }: Props) {
     const {
@@ -30,7 +35,10 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
 
     return (
         <div
-            className={[
+            style={{
+                transition: 'filter .5s'
+            }}
+            className={classNames([
                 `ik-grid-x-${position.x}`,
                 `ik-grid-y-${dimensions.y - position.y}`,
                 'flex',
@@ -38,7 +46,8 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 'justify-center',
                 'items-center',
                 'select-none',
-            ].join(' ')}
+                shouldDuck(ctx, position) && 'grayscale',
+            ])}
             onClick={handleClick}
         >
             {finishedProduct && (

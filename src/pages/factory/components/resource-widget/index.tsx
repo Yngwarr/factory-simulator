@@ -10,9 +10,20 @@ export function ResourceWidget({ resource }: Props) {
     const ctx = useContext(factoryState);
 
     const selected = ctx.selectedResourceId.value === id;
+
     const handleClick = () => {
         ctx.selectedResourceId.value = selected ? null : id;
     };
+
+    const handleEnter = () => {
+        if (!position) return;
+        ctx.hoveredResourcePosition.value = position;
+    }
+
+    const handleLeave = () => {
+        if (!position) return;
+        ctx.hoveredResourcePosition.value = null;
+    }
 
     return (
         <div
@@ -29,6 +40,8 @@ export function ResourceWidget({ resource }: Props) {
                 selected && 'outline outline-4',
             ].join(' ')}
             onClick={handleClick}
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
         >
             <div className={'text-center'}>{renderPosition(position)}</div>
             <div className={'text-center'}>{state}</div>

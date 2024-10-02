@@ -71,6 +71,7 @@ export function createResource(
 }
 
 export function posEq(a: Position, b: Position) {
+    if (a === null || b === null) return false;
     return a.x === b.x && a.y === b.y;
 }
 
@@ -91,7 +92,6 @@ export function dimensionsFromSteps(steps: ProductionStep[]) {
 
     return dimensions;
 }
-
 
 export function renderPosition(position: Position) {
     if (position === undefined) {
