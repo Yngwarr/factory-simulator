@@ -43,7 +43,7 @@ export function ResourceWidget({ resource }: Props) {
                 'ik-min-w-14',
                 'h-14',
                 'select-none',
-                'ik-smooth-transition',
+                'ik-smooth-filter',
                 selected && 'outline outline-4',
                 shouldDuck(ctx, position) && 'grayscale'
             )}

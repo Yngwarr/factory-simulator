@@ -27,6 +27,10 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
     const ctx = useContext(factoryState);
 
     const handleClick = () => {
+        if (ctx.selectedResourceId.value === null) {
+            return;
+        }
+
         const success = assignSelectedResource(ctx, id, resourceType);
         if (success) {
             ctx.selectedResourceId.value = null;
@@ -53,7 +57,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 'justify-center',
                 'items-center',
                 'select-none',
-                'ik-smooth-transition',
+                'ik-smooth-filter',
                 shouldDuck(ctx, position) && 'grayscale',
             ])}
             onClick={handleClick}

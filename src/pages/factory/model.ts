@@ -73,6 +73,10 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
     };
 }
 
+function isStepAssigned(step: ProductionStep) {
+    return step.resourceId !== undefined;
+}
+
 export function assignSelectedResource(
     ctx: FactoryState,
     stepId: string,
@@ -84,6 +88,10 @@ export function assignSelectedResource(
 
     const stepIndex = ctx.steps.value.findIndex((step) => step.id === stepId);
     if (stepIndex < 0) {
+        return false;
+    }
+
+    if (isStepAssigned(ctx.steps.value[stepIndex])) {
         return false;
     }
 
