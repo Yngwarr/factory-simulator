@@ -11,7 +11,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
     const { id, resource, position, rawMaterial, finishedProduct } = step;
 
     const handleClick = () => {
-        console.log("step pressed ", id)
+        console.log("step pressed", id)
     };
 
     return (
@@ -23,6 +23,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 'flex-col',
                 'justify-center',
                 'items-center',
+                'select-none',
             ].join(' ')}
             onClick={handleClick}
         >

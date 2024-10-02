@@ -1,5 +1,5 @@
-import { appState, updateGridRect } from '@/signals';
-import { factoryState } from '@factory/signals';
+import { appState, updateGridRect } from '@/model';
+import { factoryState } from '@factory/model';
 import type { Position } from '@factory/utils';
 import { useContext, useEffect } from 'preact/hooks';
 

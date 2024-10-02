@@ -3,7 +3,7 @@ import { LocationProvider, Route, Router } from 'preact-iso';
 import { NotFound } from './pages/_404.jsx';
 import { FactoryPage } from './pages/factory/index.js';
 import './style.css';
-import { appState, createAppState } from './signals.js';
+import { appState, createAppState } from './model.js';
 
 export function App() {
     return (

@@ -1,7 +1,7 @@
 import { resourceColor } from '../../../../utils';
 import { renderPosition, type Resource } from '../../utils';
 import { useContext } from 'preact/hooks';
-import { factoryState } from '@factory/signals';
+import { factoryState } from '@factory/model';
 
 type Props = { resource: Resource };
 

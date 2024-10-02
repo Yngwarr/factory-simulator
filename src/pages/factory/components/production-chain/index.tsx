@@ -1,8 +1,8 @@
 import { ProductionStepWidget } from '../production-step-widget';
 import { createRef } from 'preact';
 import { useContext } from 'preact/hooks';
-import { appState } from '@/signals';
-import { factoryState } from '@factory/signals';
+import { appState } from '@/model';
+import { factoryState } from '@factory/model';
 
 export function ProductionChain() {
     const { gridRef } = useContext(appState);

@@ -1,5 +1,5 @@
 import { renderTime } from '@/utils';
-import { factoryState } from '@factory/signals';
+import { factoryState } from '@factory/model';
 import { Wallet } from 'lucide-preact';
 import { useContext } from 'preact/hooks';
 

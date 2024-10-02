@@ -1,10 +1,10 @@
-import { appState, updateGridRect } from '@/signals';
+import { appState, updateGridRect } from '@/model';
 import { useContext, useEffect } from 'preact/hooks';
 import { GridCanvas } from './components/grid-canvas';
 import { Heading } from './components/heading';
 import { ProductionChain } from './components/production-chain';
 import { Resources } from './components/resources';
-import { createFactoryState, factoryState } from './signals';
+import { createFactoryState, factoryState } from './model';
 import { defaultFactory } from './defaults';
 
 export function FactoryPage() {

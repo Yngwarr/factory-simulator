@@ -1,7 +1,7 @@
 import { hashCode, renderTime } from '../../../../utils';
 import { ResourceWidget } from '../resource-widget';
 import { useContext } from 'preact/hooks';
-import { factoryState } from '@factory/signals';
+import { factoryState } from '@factory/model';
 
 export function Resources() {
     const ctx = useContext(factoryState);
