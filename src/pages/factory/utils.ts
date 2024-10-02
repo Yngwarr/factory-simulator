@@ -41,6 +41,14 @@ export type ProductionLink = {
     to: Position;
 };
 
+export type FactoryDesc = {
+    cash: number;
+    fixedExpenses: number;
+    resources: ResourceDesc[];
+    steps: ProductionStep[];
+    links: ProductionLink[];
+};
+
 export function createResource(
     { setupTime, amount }: ResourceDesc,
     resourceType: number,
@@ -58,6 +66,25 @@ export function createResource(
 
     return result;
 }
+
+export function dimensionsFromSteps(steps: ProductionStep[]) {
+    const dimensions = { x: 0, y: 0 };
+
+    for (const step of steps) {
+        const pos = step.position;
+
+        if (pos.x > dimensions.x) {
+            dimensions.x = pos.x;
+        }
+
+        if (pos.y > dimensions.y) {
+            dimensions.y = pos.y;
+        }
+    }
+
+    return dimensions;
+}
+
 
 export function renderPosition(position: Position) {
     if (position === undefined) {

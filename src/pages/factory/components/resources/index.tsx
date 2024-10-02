@@ -1,15 +1,15 @@
-import { useUnit } from 'effector-react';
-import { $$factoryModel } from '../../model';
 import { hashCode, renderTime } from '../../../../utils';
 import { ResourceWidget } from '../resource-widget';
+import { useContext } from 'preact/hooks';
+import { factoryState } from '@factory/signals';
 
 export function Resources() {
-    const { $resources: resources } = useUnit($$factoryModel);
+    const ctx = useContext(factoryState);
 
     return (
         <div className="flex flex-col flex-nowrap gap-y-4">
             <h1>Resources</h1>
-            {resources.map((rs) => (
+            {ctx.resources.value.map((rs) => (
                 <div
                     className={[
                         'flex',

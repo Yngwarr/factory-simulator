@@ -1,8 +1,9 @@
 import { appState, updateGridRect } from '@/signals';
-import { $$factoryModel } from '@factory/model';
+import { factoryState } from '@factory/signals';
 import type { Position } from '@factory/utils';
-import { useUnit } from 'effector-react';
 import { useContext, useEffect } from 'preact/hooks';
+
+const strokeWidth = 3;
 
 export function getCanvasPosition(position: Position, dimensions: Position) {
     const stepX = 100 / ((dimensions.x + 1) * 2);
@@ -15,19 +16,20 @@ export function getCanvasPosition(position: Position, dimensions: Position) {
 }
 
 export function GridCanvas() {
-    const { $dimensions: dimensions, $links: links } = useUnit($$factoryModel);
-    const ctx = useContext(appState);
-    const rect = ctx.gridRect;
+    const appCtx = useContext(appState);
+    const { dimensions, links } = useContext(factoryState);
 
-    const stepX = 100 / (dimensions.x + 1);
-    const stepY = 100 / (dimensions.y + 1);
+    const rect = appCtx.gridRect;
+
+    const stepX = 100 / (dimensions.value.x + 1);
+    const stepY = 100 / (dimensions.value.y + 1);
 
     const width = rect?.value?.width;
     const height = rect?.value?.height;
 
     useEffect(() => {
-        updateGridRect(ctx);
-    }, [ctx]);
+        updateGridRect(appCtx);
+    }, [appCtx]);
 
     return (
         <svg
@@ -39,7 +41,7 @@ export function GridCanvas() {
             }}
             className={['absolute', 'underlay'].join(' ')}
         >
-            {[...Array(dimensions.x + 2).keys()].map((x) => {
+            {[...Array(dimensions.value.x + 2).keys()].map((x) => {
                 const pos = stepX * x;
                 return (
                     <line
@@ -49,12 +51,12 @@ export function GridCanvas() {
                         x2={`${pos}%`}
                         y2={height}
                         stroke="#333"
-                        strokeWidth={3}
+                        stroke-width={strokeWidth}
                     />
                 );
             })}
 
-            {[...Array(dimensions.y + 2).keys()].map((y) => {
+            {[...Array(dimensions.value.y + 2).keys()].map((y) => {
                 const pos = stepY * y;
                 return (
                     <line
@@ -64,14 +66,14 @@ export function GridCanvas() {
                         x2={width}
                         y2={`${pos}%`}
                         stroke="#333"
-                        strokeWidth={3}
+                        stroke-width={strokeWidth}
                     />
                 );
             })}
 
             {links.map((link) => {
-                const from = getCanvasPosition(link.from, dimensions);
-                const to = getCanvasPosition(link.to, dimensions);
+                const from = getCanvasPosition(link.from, dimensions.value);
+                const to = getCanvasPosition(link.to, dimensions.value);
 
                 return (
                     <line
@@ -81,7 +83,7 @@ export function GridCanvas() {
                         x2={`${to.x}%`}
                         y2={`${to.y}%`}
                         stroke="grey"
-                        strokeWidth={3}
+                        stroke-width={strokeWidth}
                     />
                 );
             })}

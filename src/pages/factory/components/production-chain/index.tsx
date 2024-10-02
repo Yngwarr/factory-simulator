@@ -1,13 +1,12 @@
-import { useUnit } from 'effector-react';
 import { ProductionStepWidget } from '../production-step-widget';
-import { $$factoryModel } from '@factory/model';
 import { createRef } from 'preact';
 import { useContext } from 'preact/hooks';
 import { appState } from '@/signals';
+import { factoryState } from '@factory/signals';
 
 export function ProductionChain() {
-    const { $steps: steps, $dimensions: dimensions } = useUnit($$factoryModel);
-    const { gridRef } = useContext(appState)
+    const { gridRef } = useContext(appState);
+    const { steps, dimensions } = useContext(factoryState);
 
     gridRef.value = createRef();
 
@@ -18,15 +17,15 @@ export function ProductionChain() {
                     'grid',
                     'w-full',
                     'h-full',
-                    `ik-grid-c${dimensions.x + 1}`,
-                    `ik-grid-r${dimensions.y + 1}`,
+                    `ik-grid-c${dimensions.value.x + 1}`,
+                    `ik-grid-r${dimensions.value.y + 1}`,
                 ].join(' ')}
             >
-                {steps.map((step) => (
+                {steps.value.map((step) => (
                     <ProductionStepWidget
                         key={JSON.stringify(step.position)}
                         step={step}
-                        dimensions={dimensions}
+                        dimensions={dimensions.value}
                     />
                 ))}
             </div>

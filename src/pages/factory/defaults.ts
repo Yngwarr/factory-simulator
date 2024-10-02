@@ -1,12 +1,6 @@
-import type { ProductionLink, ProductionStep, ResourceDesc } from './utils';
+import type { FactoryDesc } from './utils';
 
-export const defaultFactory: {
-    cash: number;
-    fixedExpenses: number;
-    resources: ResourceDesc[];
-    steps: ProductionStep[];
-    links: ProductionLink[];
-} = {
+export const defaultFactory: FactoryDesc = {
     cash: 10000,
     fixedExpenses: 11000,
     resources: [

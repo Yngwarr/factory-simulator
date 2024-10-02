@@ -43,9 +43,6 @@
             "correctness": {
                 "noUnusedImports": "error"
             },
-            "nursery": {
-                "noDuplicateJsonKeys": "error"
-            },
             "a11y": {
                 "noSvgWithoutTitle": "off",
                 "useKeyWithClickEvents": "off"

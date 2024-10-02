@@ -1,21 +1,17 @@
 import { resourceColor } from '../../../../utils';
 import { renderPosition, type Resource } from '../../utils';
-import { useUnit } from 'effector-react';
-import { $$factoryModel } from '@factory/model';
+import { useContext } from 'preact/hooks';
+import { factoryState } from '@factory/signals';
 
 type Props = { resource: Resource };
 
 export function ResourceWidget({ resource }: Props) {
     const { type, state, position, id } = resource;
-    const { $selectedResource: selectedResource, selectResource } = useUnit($$factoryModel);
+    const ctx = useContext(factoryState);
 
-    const selected = selectedResource === id;
+    const selected = ctx.selectedResource.value === id;
     const handleClick = () => {
-        if (selected) {
-            selectResource(null);
-        } else {
-            selectResource(id);
-        }
+        ctx.selectedResource.value = selected ? null : id;
     };
 
     return (

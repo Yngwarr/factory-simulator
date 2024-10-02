@@ -1,8 +1,6 @@
 import { resourceColor } from '@/utils';
 import type { Position, ProductionStep } from '@factory/utils';
 import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
-import { $$factoryModel } from '@factory/model';
-import { useUnit } from 'effector-react';
 
 type Props = {
     step: ProductionStep;
@@ -10,11 +8,10 @@ type Props = {
 };
 
 export function ProductionStepWidget({ step, dimensions }: Props) {
-    const { resource, position, rawMaterial, finishedProduct } = step;
-    const { selectStep } = useUnit($$factoryModel);
+    const { id, resource, position, rawMaterial, finishedProduct } = step;
 
     const handleClick = () => {
-        selectStep(step.id);
+        console.log("step pressed ", id)
     };
 
     return (

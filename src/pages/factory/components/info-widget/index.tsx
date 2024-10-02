@@ -1,26 +1,22 @@
 import { renderTime } from '@/utils';
-import { $$factoryModel } from '@factory/model';
-import { useUnit } from 'effector-react';
+import { factoryState } from '@factory/signals';
 import { Wallet } from 'lucide-preact';
+import { useContext } from 'preact/hooks';
 
 export function InfoWidget() {
     const {
-        $week: week,
-        $day: day,
-        $timeMinutes: timeMinutes,
-        $cash: cash,
-        $fixedExpenses: fixedExpenses,
-    } = useUnit($$factoryModel);
+        week, day, timeMinutes, cash, fixedExpenses
+    } = useContext(factoryState)
 
     return (
         <div className="flex flex-row flex-nowrap text-xl gap-x-5 border-2 rounded-md p-2">
             <div>
-                Week {week}, {renderTime(timeMinutes, 'timer')}
+                Week {week}, {renderTime(timeMinutes.value, 'timer')}
             </div>
             <div>Day: {day}</div>
             <div>
                 <Wallet className="inline" />{' '}
-                <span>{Intl.NumberFormat().format(cash)}</span>
+                <span>{Intl.NumberFormat().format(cash.value)}</span>
             </div>
             <div>
                 Fixed exp.:{' '}
