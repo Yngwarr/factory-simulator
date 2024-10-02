@@ -8,7 +8,7 @@ type Props = {
 };
 
 export function ProductionStepWidget({ step, dimensions }: Props) {
-    const { id, resource, position, rawMaterial, finishedProduct } = step;
+    const { id, resourceType: resource, position, rawMaterial, finishedProduct } = step;
 
     const handleClick = () => {
         console.log("step pressed", id)
