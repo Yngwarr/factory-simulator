@@ -5,6 +5,10 @@ export default {
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}"
     ],
+    safelist: [
+        // resource colors
+        { pattern: /(bg|border)-(blue|red|green|yellow|purple)-600/ }
+    ],
     theme: {
         extend: {
             gridTemplateRows: {

@@ -1,15 +1,15 @@
 export type TimeFormat = 'amount' | 'timer';
 
 const RESOURCE_COLOR = [
-    'bg-blue-600',
-    'bg-red-600',
-    'bg-green-600',
-    'bg-yellow-600',
-    'bg-purple-600',
+    'blue-600',
+    'red-600',
+    'green-600',
+    'yellow-600',
+    'purple-600',
 ];
 
-export function resourceColor(type: number) {
-    return RESOURCE_COLOR[type];
+export function resourceColor(type: number, prefix = "bg") {
+    return `${prefix}-${RESOURCE_COLOR[type]}`;
 }
 
 export function hashCode(obj: any) {

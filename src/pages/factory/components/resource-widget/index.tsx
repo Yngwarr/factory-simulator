@@ -9,9 +9,9 @@ export function ResourceWidget({ resource }: Props) {
     const { type, state, position, id } = resource;
     const ctx = useContext(factoryState);
 
-    const selected = ctx.selectedResource.value === id;
+    const selected = ctx.selectedResourceId.value === id;
     const handleClick = () => {
-        ctx.selectedResource.value = selected ? null : id;
+        ctx.selectedResourceId.value = selected ? null : id;
     };
 
     return (

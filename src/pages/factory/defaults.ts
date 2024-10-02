@@ -29,7 +29,7 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 0, y: 0 },
             resourceType: 1,
-            time: 4,
+            productionTime: 4,
             leftover: 0,
             rawMaterial: {
                 cost: 30,
@@ -39,7 +39,7 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 2, y: 0 },
             resourceType: 1,
-            time: 5,
+            productionTime: 5,
             leftover: 0,
             rawMaterial: {
                 cost: 35,
@@ -49,7 +49,7 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 4, y: 0 },
             resourceType: 2,
-            time: 9,
+            productionTime: 9,
             leftover: 0,
             rawMaterial: {
                 cost: 30,
@@ -59,7 +59,7 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 5, y: 0 },
             resourceType: 1,
-            time: 15,
+            productionTime: 15,
             leftover: 0,
             rawMaterial: {
                 cost: 65,
@@ -69,79 +69,79 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 1, y: 1 },
             resourceType: 4,
-            time: 8,
+            productionTime: 8,
             leftover: 0,
         },
         {
             position: { x: 4, y: 1 },
             resourceType: 3,
-            time: 18,
+            productionTime: 18,
             leftover: 0,
         },
         {
             position: { x: 5, y: 1 },
             resourceType: 2,
-            time: 12,
+            productionTime: 12,
             leftover: 0,
         },
         {
             position: { x: 0, y: 2 },
             resourceType: 1,
-            time: 15,
+            productionTime: 15,
             leftover: 0,
         },
         {
             position: { x: 2, y: 2 },
             resourceType: 0,
-            time: 6,
+            productionTime: 6,
             leftover: 0,
         },
         {
             position: { x: 4, y: 2 },
             resourceType: 0,
-            time: 28,
+            productionTime: 28,
             leftover: 0,
         },
         {
             position: { x: 5, y: 2 },
             resourceType: 3,
-            time: 30,
+            productionTime: 30,
             leftover: 0,
         },
         {
             position: { x: 0, y: 3 },
             resourceType: 2,
-            time: 15,
+            productionTime: 15,
             leftover: 0,
         },
         {
             position: { x: 3, y: 3 },
             resourceType: 4,
-            time: 9,
+            productionTime: 9,
             leftover: 0,
         },
         {
             position: { x: 5, y: 3 },
             resourceType: 0,
-            time: 14,
+            productionTime: 14,
             leftover: 0,
         },
         {
             position: { x: 0, y: 4 },
             resourceType: 3,
-            time: 20,
+            productionTime: 20,
             leftover: 0,
         },
         {
             position: { x: 5, y: 5 },
             resourceType: 3,
-            time: 7,
+            productionTime: 7,
             leftover: 0,
         },
         {
             position: { x: 0, y: 6 },
             resourceType: 2,
-            time: 18,
+            productionTime: 18,
             leftover: 0,
             finishedProduct: {
                 cost: 180,
@@ -151,7 +151,7 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 3, y: 6 },
             resourceType: 2,
-            time: 6,
+            productionTime: 6,
             leftover: 0,
             finishedProduct: {
                 cost: 240,
@@ -161,7 +161,7 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 5, y: 6 },
             resourceType: 2,
-            time: 10,
+            productionTime: 10,
             leftover: 0,
             finishedProduct: {
                 cost: 180,

@@ -1,6 +1,9 @@
 import { resourceColor } from '@/utils';
+import { assignSelectedResource, factoryState } from '@factory/model';
 import type { Position, ProductionStep } from '@factory/utils';
+import classNames from 'classnames';
 import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
+import { useContext } from 'preact/hooks';
 
 type Props = {
     step: ProductionStep;
@@ -8,10 +11,21 @@ type Props = {
 };
 
 export function ProductionStepWidget({ step, dimensions }: Props) {
-    const { id, resourceType: resource, position, rawMaterial, finishedProduct } = step;
+    const {
+        id,
+        resourceType,
+        position,
+        rawMaterial,
+        finishedProduct,
+        resourceId,
+    } = step;
+    const ctx = useContext(factoryState);
 
     const handleClick = () => {
-        console.log("step pressed", id)
+        const success = assignSelectedResource(ctx, id, resourceType);
+        if (success) {
+            ctx.selectedResourceId.value = null;
+        }
     };
 
     return (
@@ -50,7 +64,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
             )}
 
             <div
-                className={[
+                className={classNames(
                     'bg-white',
                     'text-black',
                     'rounded-t',
@@ -58,24 +72,30 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                     'w-16',
                     'px-2',
                     'py-1',
-                ].join(' ')}
+                    resourceId && [
+                        resourceColor(resourceType, 'border'),
+                        'border-t-4',
+                        'border-r-4',
+                        'border-l-4',
+                    ],
+                )}
             >
                 <Package className="inline" />
                 {step.leftover}
             </div>
 
             <div
-                className={[
-                    resourceColor(resource),
+                className={classNames(
+                    resourceColor(resourceType),
                     'rounded-b',
                     'mx-3',
                     'w-16',
                     'px-2',
                     'py-1',
-                ].join(' ')}
+                )}
             >
                 <Timer className="inline" />
-                {step.time}
+                {step.productionTime}
             </div>
 
             {rawMaterial && (

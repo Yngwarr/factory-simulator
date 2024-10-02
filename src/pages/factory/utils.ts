@@ -5,7 +5,7 @@ export type Position = {
     y: number;
 };
 
-type ResourceState = 'idle' | 'setup' | 'prod';
+export type ResourceState = 'idle' | 'setup' | 'prod';
 
 export type ResourceDesc = {
     setupTime: number;
@@ -24,7 +24,10 @@ export type ProductionStep = {
     id?: string;
     position: Position;
     resourceType: number;
-    time: number;
+    resourceId?: string;
+    productionTime: number;
+    setupTime?: number;
+    timer?: number;
     leftover: number;
     rawMaterial?: {
         cost: number;
@@ -65,6 +68,10 @@ export function createResource(
     }
 
     return result;
+}
+
+export function posEq(a: Position, b: Position) {
+    return a.x === b.x && a.y === b.y;
 }
 
 export function dimensionsFromSteps(steps: ProductionStep[]) {
