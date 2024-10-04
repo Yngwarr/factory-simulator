@@ -93,7 +93,25 @@ function step(ctx: FactoryState) {
     return () => {
         const minutes = ctx.timeMinutes.value + 1;
 
-        // TODO do stuff here
+        // TODO update inputs
+
+        // TODO update steps
+        ctx.steps.value = produce(ctx.steps.value, (draft) => {
+            for (const step of draft) {
+                if (step.timer > 0) {
+                    step.timer--;
+                } else if (step.timer === 0) {
+                    // if setup && has input -> prod
+                    // if setup && has no input -> idle
+                    // if idle && has input -> prod
+                    // if prod && has no input -> idle
+
+                    // TODO add a list of resource updates
+                }
+            }
+        });
+
+        // TODO update resource visuals
 
         if (minutes === dayDuration) {
             changePace(ctx, 0);
@@ -193,6 +211,9 @@ export function assignSelectedResource(
             // add resource to a new step
             const step = draft[stepIndex];
             step.resourceId = ctx.selectedResourceId.value;
+            step.setupTime = selectedResource.setupTime;
+            step.state = 'setup';
+            step.timer = step.setupTime;
             draft[stepIndex] = step;
         });
 

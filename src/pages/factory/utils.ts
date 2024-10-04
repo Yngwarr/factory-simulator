@@ -28,6 +28,7 @@ export type ProductionStep = {
     productionTime: number;
     setupTime?: number;
     timer?: number;
+    state?: ResourceState;
     leftover: number;
     rawMaterial?: {
         cost: number;
