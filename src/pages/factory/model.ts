@@ -12,6 +12,8 @@ import {
 } from './utils';
 import { produce } from 'immer';
 
+const dayDuration = 8 * 60;
+
 export type FactoryState = ReturnType<typeof createFactoryState> | null;
 
 export const factoryState = createContext<FactoryState>(null);
@@ -38,6 +40,8 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
         timeMinutes: signal(0),
         cash: signal(factoryDesc.cash),
         selectedResourceId,
+        pace: signal(0),
+        intervalId: null as number | null,
 
         hoveredResourcePosition: signal<Position | null>(null),
         hoveredStepPosition: signal<Position | null>(null),
@@ -83,6 +87,50 @@ function findStepIndex(ctx: FactoryState, id: string) {
 
 function findResourceIndex(ctx: FactoryState, id: string) {
     return ctx.resources.value.findIndex((r) => r.id === id);
+}
+
+function step(ctx: FactoryState) {
+    return () => {
+        const minutes = ctx.timeMinutes.value + 1;
+
+        // TODO do stuff here
+
+        if (minutes === dayDuration) {
+            changePace(ctx, 0);
+        }
+        ctx.timeMinutes.value = minutes;
+    };
+}
+
+export function changePace(ctx: FactoryState, pace: number) {
+    if (pace < 0 || pace > 2) {
+        console.error(`Impossible value of pace: ${pace}`);
+        return;
+    }
+
+    if (ctx.pace.value === pace) {
+        return;
+    }
+
+    if (pace > 0) {
+        if (ctx.timeMinutes.value === dayDuration) {
+            ctx.timeMinutes.value = 0;
+            ctx.day.value += 1;
+            if (ctx.day.value > 5) {
+                ctx.day.value = 1;
+                ctx.week.value += 1;
+            }
+        }
+    }
+
+    ctx.pace.value = pace;
+    if (ctx.intervalId !== null) {
+        clearInterval(ctx.intervalId);
+    }
+
+    if (pace > 0) {
+        ctx.intervalId = setInterval(step(ctx), pace === 1 ? 500 : 200);
+    }
 }
 
 export function buyRawMaterial(

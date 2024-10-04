@@ -176,7 +176,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                                 'flex-nowrap',
                                 'items-center',
                                 'text-black',
-                                'gap-x-1',
+                                'gap-x-2',
                                 '-translate-y-2',
                             ])}
                         >

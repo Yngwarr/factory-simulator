@@ -4,16 +4,14 @@ import { Wallet } from 'lucide-preact';
 import { useContext } from 'preact/hooks';
 
 export function InfoWidget() {
-    const {
-        week, day, timeMinutes, cash, fixedExpenses
-    } = useContext(factoryState)
+    const { week, day, timeMinutes, cash, fixedExpenses } =
+        useContext(factoryState);
 
     return (
         <div className="flex flex-row flex-nowrap text-xl gap-x-5 border-2 rounded-md p-2">
-            <div>
-                Week {week}, {renderTime(timeMinutes.value, 'timer')}
-            </div>
+            <div>Week {week}</div>
             <div>Day: {day}</div>
+            <div>{renderTime(timeMinutes.value, 'timer')}</div>
             <div>
                 <Wallet className="inline" />{' '}
                 <span>{Intl.NumberFormat().format(cash.value)}</span>
