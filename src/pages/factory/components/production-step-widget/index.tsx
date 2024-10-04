@@ -1,6 +1,6 @@
 import { resourceColor } from '@/utils';
-import { assignSelectedResource, factoryState } from '@factory/model';
-import { posEq, type Position, type ProductionStep } from '@factory/utils';
+import { type FactoryState, assignSelectedResource, factoryState } from '@factory/model';
+import { type Position, type ProductionStep, posEq } from '@factory/utils';
 import classNames from 'classnames';
 import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
 import { useContext } from 'preact/hooks';
@@ -60,7 +60,6 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 'ik-smooth-filter',
                 shouldDuck(ctx, position) && 'grayscale',
             ])}
-            onClick={handleClick}
             onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}
         >
@@ -102,6 +101,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                         'border-l-4',
                     ],
                 )}
+                onClick={handleClick}
             >
                 <Package className="inline" />
                 {step.leftover}
@@ -116,6 +116,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                     'px-2',
                     'py-1',
                 )}
+                onClick={handleClick}
             >
                 <Timer className="inline" />
                 {step.productionTime}
