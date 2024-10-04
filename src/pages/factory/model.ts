@@ -9,6 +9,7 @@ import {
     dimensionsFromSteps,
     type Position,
     posEq,
+    linkSteps,
 } from './utils';
 import { produce } from 'immer';
 
@@ -23,12 +24,14 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
         factoryDesc.resources.flatMap(createResource),
     );
 
-    const steps = signal<ProductionStep[]>(
-        factoryDesc.steps.map((x) => {
-            x.id = uuid();
-            return x;
-        }),
-    );
+    const rawSteps = factoryDesc.steps.map((x) => {
+        x.id = uuid();
+        return x;
+    });
+
+    linkSteps(rawSteps, factoryDesc.links);
+
+    const steps = signal<ProductionStep[]>(rawSteps);
 
     const selectedResourceId = signal<string | null>(null);
 
@@ -93,8 +96,6 @@ function step(ctx: FactoryState) {
     return () => {
         const minutes = ctx.timeMinutes.value + 1;
 
-        // TODO update inputs
-
         // TODO update steps
         ctx.steps.value = produce(ctx.steps.value, (draft) => {
             for (const step of draft) {
@@ -105,7 +106,6 @@ function step(ctx: FactoryState) {
                     // if setup && has no input -> idle
                     // if idle && has input -> prod
                     // if prod && has no input -> idle
-
                     // TODO add a list of resource updates
                 }
             }

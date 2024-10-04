@@ -22,6 +22,8 @@ export type Resource = {
 
 export type ProductionStep = {
     id?: string;
+    inputs?: string[];
+    outputs?: string[];
     position: Position;
     resourceType: number;
     resourceId?: string;
@@ -69,6 +71,25 @@ export function createResource(
     }
 
     return result;
+}
+
+function mapIndex(pos: Position) {
+    return pos.x << 16 | pos.y;
+}
+
+export function linkSteps(steps: ProductionStep[], links: ProductionLink[]) {
+    const map = new Map<number, ProductionStep>();
+
+    for (const step of steps) {
+        map.set(mapIndex(step.position), step);
+        step.inputs = [];
+        step.outputs = [];
+    }
+
+    for (const link of links) {
+        map.get(mapIndex(link.from)).outputs.push(map.get(mapIndex(link.to)).id);
+        map.get(mapIndex(link.to)).inputs.push(map.get(mapIndex(link.from)).id);
+    }
 }
 
 export function posEq(a: Position, b: Position) {
