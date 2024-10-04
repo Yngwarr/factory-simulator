@@ -77,6 +77,36 @@ function isStepAssigned(step: ProductionStep) {
     return step.resourceId !== undefined;
 }
 
+function findStepIndex(ctx: FactoryState, id: string) {
+    return ctx.steps.value.findIndex((step) => step.id === id);
+}
+
+function findResourceIndex(ctx: FactoryState, id: string) {
+    return ctx.resources.value.findIndex((r) => r.id === id);
+}
+
+export function buyRawMaterial(
+    ctx: FactoryState,
+    stepId: string,
+    amount: number,
+) {
+    const stepIndex = findStepIndex(ctx, stepId);
+    const cost = ctx.steps.value[stepIndex].rawMaterial.cost * amount;
+
+    if (ctx.cash.value < cost) {
+        return false;
+    }
+
+    batch(() => {
+        ctx.cash.value -= cost;
+        ctx.steps.value = produce(ctx.steps.value, (draft) => {
+            draft[stepIndex].rawMaterial.amount += amount;
+        });
+    });
+
+    return true;
+}
+
 export function assignSelectedResource(
     ctx: FactoryState,
     stepId: string,
@@ -86,7 +116,7 @@ export function assignSelectedResource(
         return false;
     }
 
-    const stepIndex = ctx.steps.value.findIndex((step) => step.id === stepId);
+    const stepIndex = findStepIndex(ctx, stepId);
     if (stepIndex < 0) {
         return false;
     }
@@ -95,9 +125,7 @@ export function assignSelectedResource(
         return false;
     }
 
-    const resIndex = ctx.resources.value.findIndex(
-        (r) => r.id === ctx.selectedResourceId.value,
-    );
+    const resIndex = findResourceIndex(ctx, ctx.selectedResourceId.value);
 
     batch(() => {
         ctx.steps.value = produce(ctx.steps.value, (draft) => {

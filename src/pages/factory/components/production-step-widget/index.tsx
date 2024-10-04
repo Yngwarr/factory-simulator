@@ -1,9 +1,14 @@
 import { resourceColor } from '@/utils';
-import { type FactoryState, assignSelectedResource, factoryState } from '@factory/model';
+import {
+    type FactoryState,
+    assignSelectedResource,
+    buyRawMaterial,
+    factoryState,
+} from '@factory/model';
 import { type Position, type ProductionStep, posEq } from '@factory/utils';
 import classNames from 'classnames';
 import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
-import { useContext } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 
 type Props = {
     step: ProductionStep;
@@ -11,8 +16,38 @@ type Props = {
 };
 
 function shouldDuck(ctx: FactoryState, position: Position) {
-    return ctx.hoveredResourcePosition.value !== null &&
-        !posEq(position, ctx.hoveredResourcePosition.value);
+    return (
+        ctx.hoveredResourcePosition.value !== null &&
+        !posEq(position, ctx.hoveredResourcePosition.value)
+    );
+}
+
+function AddRawButton({ ctx, stepId, amount }) {
+    const handleClick = () => {
+        buyRawMaterial(ctx, stepId, amount);
+    };
+
+    return (
+        <button
+            className={classNames([
+                'border-2',
+                'border-black',
+                'p-1',
+                'rounded-md',
+                'bg-gray-200',
+                'hover:bg-gray-300',
+                'hover:shadow',
+                'active:bg-gray-400',
+                'active:scale-90',
+                'transition-colors',
+                'transition-shadow',
+            ])}
+            type="button"
+            onClick={handleClick}
+        >
+            +{amount}
+        </button>
+    );
 }
 
 export function ProductionStepWidget({ step, dimensions }: Props) {
@@ -26,6 +61,8 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
     } = step;
     const ctx = useContext(factoryState);
 
+    const [alterRaw, setAlterRaw] = useState(false);
+
     const handleClick = () => {
         if (ctx.selectedResourceId.value === null) {
             return;
@@ -37,15 +74,19 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
         }
     };
 
+    const handleRawClick = () => {
+        setAlterRaw(!alterRaw);
+    };
+
     const handleEnter = () => {
         if (!resourceId) return;
         ctx.hoveredStepPosition.value = position;
-    }
+    };
 
     const handleLeave = () => {
         if (!resourceId) return;
         ctx.hoveredStepPosition.value = null;
-    }
+    };
 
     return (
         <div
@@ -123,23 +164,63 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
             </div>
 
             {rawMaterial && (
-                <div
-                    className={[
-                        'bg-gray-200',
-                        'text-black',
-                        'rounded',
-                        'border-2',
-                        'border-gray-400',
-                        'mx-3',
-                        'px-2',
-                        'py-1',
-                    ].join(' ')}
-                >
-                    <Pickaxe className="inline" />
-                    {rawMaterial.amount}
-                    <Banknote className="inline px-1" />
-                    {rawMaterial.cost}
-                </div>
+                <>
+                    {alterRaw && (
+                        <div
+                            className={classNames([
+                                'absolute',
+                                'px-4',
+                                'py-2',
+                                'flex',
+                                'flex-row',
+                                'flex-nowrap',
+                                'items-center',
+                                'text-black',
+                                'gap-x-1',
+                                '-translate-y-2',
+                            ])}
+                        >
+                            <AddRawButton
+                                amount={1}
+                                ctx={ctx}
+                                stepId={id}
+                            />
+                            <AddRawButton
+                                amount={5}
+                                ctx={ctx}
+                                stepId={id}
+                            />
+                            <AddRawButton
+                                amount={10}
+                                ctx={ctx}
+                                stepId={id}
+                            />
+                        </div>
+                    )}
+                    <div
+                        className={classNames([
+                            'flex',
+                            'flex-row',
+                            'flex-nowrap',
+                            'items-center',
+                            'bg-gray-200',
+                            'text-black',
+                            'rounded',
+                            'border-2',
+                            'border-gray-400',
+                            'mx-3',
+                            'px-2',
+                            'py-1',
+                            'gap-x-1',
+                        ])}
+                        onClick={handleRawClick}
+                    >
+                        <Pickaxe className="inline" />
+                        {rawMaterial.amount}
+                        <Banknote className="inline" />
+                        {rawMaterial.cost}
+                    </div>
+                </>
             )}
         </div>
     );

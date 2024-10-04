@@ -1,9 +1,10 @@
+import classNames from 'classnames';
 import { FastForward, Pause, Play, StepForward } from 'lucide-preact';
 
 function ControlButton({ children }) {
     return (
         <button
-            className={[
+            className={classNames([
                 'border-2',
                 'rounded-md',
                 'p-2',
@@ -11,7 +12,7 @@ function ControlButton({ children }) {
                 'hover:bg-gray-700',
                 'active:bg-gray-600',
                 'active:scale-90',
-            ].join(' ')}
+            ])}
             type="button"
         >
             {children}
