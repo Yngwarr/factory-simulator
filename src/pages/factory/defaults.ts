@@ -70,13 +70,13 @@ export const defaultFactory: FactoryDesc = {
             position: { x: 1, y: 1 },
             resourceType: 4,
             productionTime: 8,
-            leftover: 0,
+            leftover: 25,
         },
         {
             position: { x: 4, y: 1 },
             resourceType: 3,
             productionTime: 18,
-            leftover: 0,
+            leftover: 15,
         },
         {
             position: { x: 5, y: 1 },
@@ -105,8 +105,8 @@ export const defaultFactory: FactoryDesc = {
         {
             position: { x: 5, y: 2 },
             resourceType: 3,
-            productionTime: 30,
-            leftover: 0,
+            productionTime: 20,
+            leftover: 10,
         },
         {
             position: { x: 0, y: 3 },
