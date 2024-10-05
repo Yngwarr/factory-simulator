@@ -10,6 +10,7 @@ import {
     type Position,
     posEq,
     linkSteps,
+    ResourceState,
 } from './utils';
 import { produce } from 'immer';
 
@@ -92,26 +93,79 @@ function findResourceIndex(ctx: FactoryState, id: string) {
     return ctx.resources.value.findIndex((r) => r.id === id);
 }
 
-function step(ctx: FactoryState) {
+function tick(ctx: FactoryState) {
     return () => {
         const minutes = ctx.timeMinutes.value + 1;
+        const resourceUpdates = new Map<string, ResourceState>();
 
-        // TODO update steps
-        ctx.steps.value = produce(ctx.steps.value, (draft) => {
-            for (const step of draft) {
-                if (step.timer > 0) {
-                    step.timer--;
-                } else if (step.timer === 0) {
-                    // if setup && has input -> prod
-                    // if setup && has no input -> idle
-                    // if idle && has input -> prod
-                    // if prod && has no input -> idle
-                    // TODO add a list of resource updates
+        batch(() => {
+            ctx.steps.value = produce(ctx.steps.value, (draft) => {
+                for (const step of draft) {
+                    if (step.resourceId === undefined) {
+                        continue;
+                    }
+
+                    if (step.timer > 0) {
+                        step.timer--;
+                    } else if (step.timer === 0) {
+                        if (step.state === 'prod') {
+                            step.leftover++;
+                        }
+
+                        if (step.rawMaterial) {
+                            if (step.rawMaterial.amount > 0) {
+                                step.rawMaterial.amount--;
+                                step.state = 'prod';
+                                step.timer = step.productionTime;
+                                resourceUpdates.set(
+                                    step.resourceId,
+                                    step.state,
+                                );
+                            }
+                        } else {
+                            const inIndices = step.inputs.map((id) =>
+                                findStepIndex(ctx, id),
+                            );
+                            const hasInput = inIndices.reduce(
+                                (acc, value) =>
+                                    acc && draft[value].leftover > 0,
+                                true,
+                            );
+
+                            if (hasInput) {
+                                for (const i of inIndices) {
+                                    draft[i].leftover--;
+                                }
+                                step.state = 'prod';
+                                step.timer = step.productionTime;
+                                resourceUpdates.set(
+                                    step.resourceId,
+                                    step.state,
+                                );
+                            } else {
+                                if (step.state !== 'idle') {
+                                    step.state = 'idle';
+                                    resourceUpdates.set(
+                                        step.resourceId,
+                                        step.state,
+                                    );
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        });
+            });
 
-        // TODO update resource visuals
+            ctx.resources.value = produce(ctx.resources.value, (draft) => {
+                for (const res of draft) {
+                    if (!resourceUpdates.has(res.id)) {
+                        continue;
+                    }
+
+                    res.state = resourceUpdates.get(res.id);
+                }
+            });
+        });
 
         if (minutes === dayDuration) {
             changePace(ctx, 0);
@@ -147,7 +201,7 @@ export function changePace(ctx: FactoryState, pace: number) {
     }
 
     if (pace > 0) {
-        ctx.intervalId = setInterval(step(ctx), pace === 1 ? 500 : 200);
+        ctx.intervalId = setInterval(tick(ctx), pace === 1 ? 500 : 200);
     }
 }
 
