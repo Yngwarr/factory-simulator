@@ -94,8 +94,8 @@ export function GridCanvas() {
                 return (
                     <circle
                         key={mat.id}
-                        cx={pos.x}
-                        cy={pos.y}
+                        cx={`${pos.x}%`}
+                        cy={`${pos.y}%`}
                         r={10}
                         className={resourceColor(mat.type, "fill")}
                     />

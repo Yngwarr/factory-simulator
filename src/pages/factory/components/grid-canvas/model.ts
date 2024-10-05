@@ -23,8 +23,8 @@ export function createGridState() {
 
 function calculatePosition(from: Position, to: Position, progress: number) {
     return {
-        x: from.x + (from.x - to.x) * progress,
-        y: from.y + (from.y - to.y) * progress,
+        x: from.x + (to.x - from.x) * progress,
+        y: from.y + (to.y - from.y) * progress,
     };
 }
 
