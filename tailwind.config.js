@@ -7,7 +7,7 @@ export default {
     ],
     safelist: [
         // resource colors
-        { pattern: /(bg|border)-(blue|red|green|yellow|purple)-600/ }
+        { pattern: /(bg|border|fill)-(blue|red|green|yellow|purple)-600/ }
     ],
     theme: {
         extend: {

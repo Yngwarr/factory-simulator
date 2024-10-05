@@ -13,6 +13,11 @@ import {
     type ResourceState,
 } from './utils';
 import { produce } from 'immer';
+import {
+    addMaterial,
+    createGridState,
+    tick as gridTick,
+} from './components/grid-canvas/model';
 
 const dayDuration = 8 * 60;
 
@@ -49,6 +54,7 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
 
         hoveredResourcePosition: signal<Position | null>(null),
         hoveredStepPosition: signal<Position | null>(null),
+        gridState: createGridState(),
 
         links: factoryDesc.links,
         fixedExpenses: factoryDesc.fixedExpenses,
@@ -93,6 +99,15 @@ function findResourceIndex(ctx: FactoryState, id: string) {
     return ctx.resources.value.findIndex((r) => r.id === id);
 }
 
+function startNewProd(
+    step: ProductionStep,
+    resourceUpdates: Map<string, ResourceState>,
+) {
+    step.state = 'prod';
+    step.timer = step.productionTime;
+    resourceUpdates.set(step.resourceId, step.state);
+}
+
 function tick(ctx: FactoryState) {
     return () => {
         const minutes = ctx.timeMinutes.value + 1;
@@ -115,7 +130,6 @@ function tick(ctx: FactoryState) {
                                     step.finishedProduct.demand--;
                                     cashUpdate += step.finishedProduct.cost;
                                 }
-
                             } else {
                                 step.leftover++;
                             }
@@ -124,33 +138,30 @@ function tick(ctx: FactoryState) {
                         if (step.rawMaterial) {
                             if (step.rawMaterial.amount > 0) {
                                 step.rawMaterial.amount--;
-                                step.state = 'prod';
-                                step.timer = step.productionTime;
-                                resourceUpdates.set(
-                                    step.resourceId,
-                                    step.state,
-                                );
+                                startNewProd(step, resourceUpdates);
                             }
                         } else {
-                            const inIndices = step.inputs.map((id) =>
+                            const inputIndices = step.inputs.map((id) =>
                                 findStepIndex(ctx, id),
                             );
-                            const hasInput = inIndices.reduce(
+                            const hasInput = inputIndices.reduce(
                                 (acc, value) =>
                                     acc && draft[value].leftover > 0,
                                 true,
                             );
 
                             if (hasInput) {
-                                for (const i of inIndices) {
+                                for (const i of inputIndices) {
                                     draft[i].leftover--;
+                                    addMaterial(
+                                        ctx.gridState,
+                                        draft[i].position,
+                                        step.position,
+                                        draft[i].resourceType,
+                                        step.productionTime,
+                                    );
                                 }
-                                step.state = 'prod';
-                                step.timer = step.productionTime;
-                                resourceUpdates.set(
-                                    step.resourceId,
-                                    step.state,
-                                );
+                                startNewProd(step, resourceUpdates);
                             } else {
                                 if (step.state !== 'idle') {
                                     step.state = 'idle';
@@ -212,7 +223,13 @@ export function changePace(ctx: FactoryState, pace: number) {
     }
 
     if (pace > 0) {
-        ctx.intervalId = setInterval(tick(ctx), pace === 1 ? 500 : 200);
+        ctx.intervalId = setInterval(
+            () => {
+                tick(ctx)();
+                gridTick(ctx.gridState);
+            },
+            pace === 1 ? 500 : 200,
+        );
     }
 }
 

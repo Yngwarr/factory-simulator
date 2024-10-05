@@ -1,11 +1,12 @@
 import { appState, updateGridRect } from '@/model';
+import { resourceColor } from '@/utils';
 import { factoryState } from '@factory/model';
 import type { Position } from '@factory/utils';
 import { useContext, useEffect } from 'preact/hooks';
 
 const strokeWidth = 3;
 
-export function getCanvasPosition(position: Position, dimensions: Position) {
+function getCanvasPosition(position: Position, dimensions: Position) {
     const stepX = 100 / ((dimensions.x + 1) * 2);
     const stepY = 100 / ((dimensions.y + 1) * 2);
 
@@ -17,7 +18,7 @@ export function getCanvasPosition(position: Position, dimensions: Position) {
 
 export function GridCanvas() {
     const appCtx = useContext(appState);
-    const { dimensions, links } = useContext(factoryState);
+    const { dimensions, links, gridState } = useContext(factoryState);
 
     const rect = appCtx.gridRect;
 
@@ -84,6 +85,19 @@ export function GridCanvas() {
                         y2={`${to.y}%`}
                         stroke="grey"
                         stroke-width={strokeWidth}
+                    />
+                );
+            })}
+
+            {gridState.materials.value.map((mat) => {
+                const pos = getCanvasPosition(mat.position, dimensions.value);
+                return (
+                    <circle
+                        key={mat.id}
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={10}
+                        className={resourceColor(mat.type, "fill")}
                     />
                 );
             })}
