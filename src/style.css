@@ -29,7 +29,7 @@ h1 {
         scale .2s;
 }
 
-@keyframes load {
+@keyframes spin {
     from {
         rotate: 0
     }
@@ -39,8 +39,8 @@ h1 {
     }
 }
 
-.loader {
-    animation: 1s infinite linear load;
+.spinning {
+    animation: 1s infinite linear spin;
 }
 
 .ik-smooth-filter { transition: filter .5s }

@@ -286,6 +286,7 @@ export function assignSelectedResource(
 
                 if (prevIndex >= 0) {
                     draft[prevIndex].resourceId = undefined;
+                    draft[prevIndex].state = 'idle';
                 }
             }
 

@@ -10,9 +10,9 @@ import classNames from 'classnames';
 import {
     Banknote,
     ChevronsUp,
-    LoaderCircle,
     Package,
     Pickaxe,
+    Settings,
     Timer,
 } from 'lucide-preact';
 import { useContext, useState } from 'preact/hooks';
@@ -107,6 +107,9 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
 
     const handleClick = () => {
         if (ctx.selectedResourceId.value === null) {
+            if (resourceId) {
+                ctx.selectedResourceId.value = resourceId;
+            }
             return;
         }
 
@@ -174,18 +177,20 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                         finishedProduct
                             ? 'translate-y-16'
                             : rawMaterial
-                                ? '-translate-y-16'
-                                : '-translate-y-11'
+                              ? '-translate-y-16'
+                              : '-translate-y-11'
                     }
                     progress={1 - timer / setupTime}
                     resourceType={resourceType}
                 />
             )}
+
             <div
                 className={classNames(
                     'flex',
                     'flex-row',
                     'flex-nowrap',
+                    'gap-x-1',
                     'bg-white',
                     'text-black',
                     'rounded-t',
@@ -214,11 +219,21 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                     'w-16',
                     'px-2',
                     'py-1',
+                    'flex',
+                    'flex-row',
+                    'flex-nowrap',
+                    'items-center',
+                    'gap-x-1',
                 )}
                 onClick={handleClick}
             >
                 {state === 'prod' ? (
-                    <LoaderCircle className="inline loader" />
+                    <Settings
+                        className={classNames([
+                            'inline',
+                            ctx.pace.value > 0 && 'spinning',
+                        ])}
+                    />
                 ) : (
                     <Timer className="inline" />
                 )}
@@ -266,6 +281,7 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                             'flex-row',
                             'flex-nowrap',
                             'items-center',
+                            'gap-x-1',
                             'bg-gray-200',
                             'text-black',
                             'rounded',
@@ -274,7 +290,6 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                             'mx-3',
                             'px-2',
                             'py-1',
-                            'gap-x-1',
                         ])}
                         onClick={handleRawClick}
                     >
