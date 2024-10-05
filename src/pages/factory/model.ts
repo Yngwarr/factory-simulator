@@ -10,7 +10,7 @@ import {
     type Position,
     posEq,
     linkSteps,
-    ResourceState,
+    type ResourceState,
 } from './utils';
 import { produce } from 'immer';
 
@@ -97,6 +97,7 @@ function tick(ctx: FactoryState) {
     return () => {
         const minutes = ctx.timeMinutes.value + 1;
         const resourceUpdates = new Map<string, ResourceState>();
+        let cashUpdate = 0;
 
         batch(() => {
             ctx.steps.value = produce(ctx.steps.value, (draft) => {
@@ -109,7 +110,15 @@ function tick(ctx: FactoryState) {
                         step.timer--;
                     } else if (step.timer === 0) {
                         if (step.state === 'prod') {
-                            step.leftover++;
+                            if (step.finishedProduct) {
+                                if (step.finishedProduct.demand > 0) {
+                                    step.finishedProduct.demand--;
+                                    cashUpdate += step.finishedProduct.cost;
+                                }
+
+                            } else {
+                                step.leftover++;
+                            }
                         }
 
                         if (step.rawMaterial) {
@@ -165,6 +174,8 @@ function tick(ctx: FactoryState) {
                     res.state = resourceUpdates.get(res.id);
                 }
             });
+
+            ctx.cash.value += cashUpdate;
         });
 
         if (minutes === dayDuration) {
