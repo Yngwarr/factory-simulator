@@ -29,26 +29,27 @@ function calculatePosition(from: Position, to: Position, progress: number) {
 }
 
 export function tick(ctx: GridState) {
-    ctx.materials.value = produce(ctx.materials.value, (draft) => {
-        for (const mat of draft) {
-            if (mat.elapsed >= mat.timeTotal) {
-                continue;
-            }
-
-            const newElapsed = mat.elapsed + 1;
-
-            mat.position = calculatePosition(
-                mat.from,
-                mat.to,
-                newElapsed / mat.timeTotal,
-            );
-
-            if (newElapsed >= mat.timeTotal) {
-                ctx.free.push(mat.id);
-            }
-
-            mat.elapsed = newElapsed;
+    const mats = ctx.materials.value;
+    ctx.materials.value = mats.map((mat) => {
+        if (mat.elapsed >= mat.timeTotal) {
+            return mat;
         }
+
+        const newElapsed = mat.elapsed + 1;
+
+        mat.position = calculatePosition(
+            mat.from,
+            mat.to,
+            newElapsed / mat.timeTotal,
+        );
+
+        if (newElapsed >= mat.timeTotal) {
+            ctx.free.push(mat.id);
+        }
+
+        mat.elapsed = newElapsed;
+
+        return mat;
     });
 }
 
