@@ -85,7 +85,17 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
             );
         }),
         ...createGridState(),
+        moneyLabel: signal<{ id: string; amount: number }[]>([]),
     };
+}
+
+function showMoneyLabel(ctx: FactoryState, amount: number) {
+    if (amount === 0) {
+        return;
+    }
+
+    ctx.moneyLabel.value.push({ id: uuid(), amount: amount });
+    setTimeout(() => ctx.moneyLabel.value.unshift(), 1000);
 }
 
 function isStepAssigned(step: ProductionStep) {
@@ -186,13 +196,18 @@ function tick(ctx: FactoryState) {
             }
         });
 
-        ctx.cash.value += cashUpdate;
+        addCash(ctx, cashUpdate);
     });
 
     if (minutes === dayDuration) {
         changePace(ctx, 0);
     }
     ctx.timeMinutes.value = minutes;
+}
+
+function addCash(ctx: FactoryState, amount: number) {
+    ctx.cash.value += amount;
+    showMoneyLabel(ctx, amount);
 }
 
 export function changePace(ctx: FactoryState, pace: number) {
@@ -245,7 +260,7 @@ export function buyRawMaterial(
     }
 
     batch(() => {
-        ctx.cash.value -= cost;
+        addCash(ctx, -cost);
         ctx.steps.value = produce(ctx.steps.value, (draft) => {
             draft[stepIndex].rawMaterial.amount += amount;
         });

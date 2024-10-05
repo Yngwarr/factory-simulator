@@ -31,7 +31,7 @@ h1 {
 
 @keyframes spin {
     from {
-        rotate: 0
+        rotate: 0;
     }
 
     to {
@@ -41,6 +41,27 @@ h1 {
 
 .spinning {
     animation: 1s infinite linear spin;
+}
+
+@keyframes float-up {
+    from {
+        opacity: 1;
+        translate: 0 0;
+    }
+
+    to {
+        opacity: 0;
+        translate: 0 -30px;
+    }
+}
+
+.float-up {
+    animation: 1s float-up;
+    opacity: 0;
+}
+
+.ik-bg-color {
+    background-color: #1c1b22;
 }
 
 .ik-smooth-filter { transition: filter .5s }

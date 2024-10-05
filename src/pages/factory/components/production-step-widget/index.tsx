@@ -151,10 +151,8 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
         >
             {finishedProduct && (
                 <div
-                    style={{
-                        backgroundColor: '#1c1b22',
-                    }}
                     className={[
+                        'ik-bg-color',
                         'text-white',
                         'rounded',
                         'border-2',
