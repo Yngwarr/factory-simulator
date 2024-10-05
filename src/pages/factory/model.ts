@@ -137,6 +137,14 @@ function tick(ctx: FactoryState) {
                 }
 
                 if (step.state === 'prod') {
+                    const inputIndices = step.inputs.map((id) =>
+                        findStepIndex(ctx, id),
+                    );
+
+                    for (const i of inputIndices) {
+                        draft[i].leftover--;
+                    }
+
                     if (step.finishedProduct) {
                         if (step.finishedProduct.demand > 0) {
                             step.finishedProduct.demand--;
@@ -166,7 +174,7 @@ function tick(ctx: FactoryState) {
 
                     if (hasInput) {
                         for (const i of inputIndices) {
-                            draft[i].leftover--;
+                            // draft[i].leftover--;
                             addMaterial(
                                 ctx,
                                 ctx.steps.value[i].position,
