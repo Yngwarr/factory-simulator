@@ -22,6 +22,38 @@ function shouldDuck(ctx: FactoryState, position: Position) {
     );
 }
 
+type ProgressBarProps = {
+    progress: number;
+    resourceType: number;
+    className: string;
+};
+
+function ProgressBar({ progress, resourceType, className }: ProgressBarProps) {
+    return (
+        <div
+            className={classNames([
+                className,
+                'absolute',
+                'bg-[#808080]',
+                'w-16',
+                'h-2',
+                'rounded-md',
+                // 'border',
+                // 'border-[#808080]'
+            ])}
+        >
+            <div
+                style={{ width: `${100 * progress}%` }}
+                className={classNames([
+                    resourceColor(resourceType),
+                    'h-full',
+                    'rounded-md',
+                ])}
+            />
+        </div>
+    );
+}
+
 function AddRawButton({ ctx, stepId, amount }) {
     const handleClick = () => {
         buyRawMaterial(ctx, stepId, amount);
@@ -58,6 +90,9 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
         rawMaterial,
         finishedProduct,
         resourceId,
+        state,
+        timer,
+        setupTime,
     } = step;
     const ctx = useContext(factoryState);
 
@@ -126,6 +161,19 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 </div>
             )}
 
+            {state === 'setup' && resourceId && setupTime !== 0 && (
+                <ProgressBar
+                    className={
+                        finishedProduct
+                            ? 'translate-y-16'
+                            : rawMaterial
+                              ? '-translate-y-16'
+                              : '-translate-y-11'
+                    }
+                    progress={1 - timer / setupTime}
+                    resourceType={resourceType}
+                />
+            )}
             <div
                 className={classNames(
                     'flex',
