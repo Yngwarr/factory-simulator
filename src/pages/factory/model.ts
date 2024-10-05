@@ -123,52 +123,53 @@ function tick(ctx: FactoryState) {
 
                 if (step.timer > 0) {
                     step.timer--;
-                } else if (step.timer === 0) {
-                    if (step.state === 'prod') {
-                        if (step.finishedProduct) {
-                            if (step.finishedProduct.demand > 0) {
-                                step.finishedProduct.demand--;
-                                cashUpdate += step.finishedProduct.cost;
-                            }
-                        } else {
-                            step.leftover++;
-                        }
-                    }
+                    continue;
+                }
 
-                    if (step.rawMaterial) {
-                        if (step.rawMaterial.amount > 0) {
-                            step.rawMaterial.amount--;
-                            startNewProd(step, resourceUpdates);
+                if (step.state === 'prod') {
+                    if (step.finishedProduct) {
+                        if (step.finishedProduct.demand > 0) {
+                            step.finishedProduct.demand--;
+                            cashUpdate += step.finishedProduct.cost;
                         }
                     } else {
-                        const inputIndices = step.inputs.map((id) =>
-                            findStepIndex(ctx, id),
-                        );
-                        const hasInput = inputIndices.reduce(
-                            (acc, value) => acc && draft[value].leftover > 0,
-                            true,
-                        );
+                        step.leftover++;
+                    }
+                }
 
-                        if (hasInput) {
-                            for (const i of inputIndices) {
-                                draft[i].leftover--;
-                                addMaterial(
-                                    ctx,
-                                    ctx.steps.value[i].position,
-                                    deepCopy(step.position),
-                                    ctx.steps.value[i].resourceType,
-                                    step.productionTime,
-                                );
-                            }
-                            startNewProd(step, resourceUpdates);
-                        } else {
-                            if (step.state !== 'idle') {
-                                step.state = 'idle';
-                                resourceUpdates.set(
-                                    step.resourceId,
-                                    step.state,
-                                );
-                            }
+                if (step.rawMaterial) {
+                    if (step.rawMaterial.amount > 0) {
+                        step.rawMaterial.amount--;
+                        startNewProd(step, resourceUpdates);
+                    } else {
+                        step.state = 'idle';
+                        resourceUpdates.set(step.resourceId, step.state);
+                    }
+                } else {
+                    const inputIndices = step.inputs.map((id) =>
+                        findStepIndex(ctx, id),
+                    );
+                    const hasInput = inputIndices.reduce(
+                        (acc, value) => acc && draft[value].leftover > 0,
+                        true,
+                    );
+
+                    if (hasInput) {
+                        for (const i of inputIndices) {
+                            draft[i].leftover--;
+                            addMaterial(
+                                ctx,
+                                ctx.steps.value[i].position,
+                                deepCopy(step.position),
+                                ctx.steps.value[i].resourceType,
+                                step.productionTime,
+                            );
+                        }
+                        startNewProd(step, resourceUpdates);
+                    } else {
+                        if (step.state !== 'idle') {
+                            step.state = 'idle';
+                            resourceUpdates.set(step.resourceId, step.state);
                         }
                     }
                 }
