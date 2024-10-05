@@ -18,6 +18,7 @@ import {
     createGridState,
     tick as gridTick,
 } from './components/grid-canvas/model';
+import { deepCopy } from '@/utils';
 
 const dayDuration = 8 * 60;
 
@@ -54,7 +55,6 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
 
         hoveredResourcePosition: signal<Position | null>(null),
         hoveredStepPosition: signal<Position | null>(null),
-        gridState: createGridState(),
 
         links: factoryDesc.links,
         fixedExpenses: factoryDesc.fixedExpenses,
@@ -84,6 +84,7 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
                 (r) => r.id === selectedResourceId.value,
             );
         }),
+        ...createGridState(),
     };
 }
 
@@ -109,91 +110,88 @@ function startNewProd(
 }
 
 function tick(ctx: FactoryState) {
-    return () => {
-        const minutes = ctx.timeMinutes.value + 1;
-        const resourceUpdates = new Map<string, ResourceState>();
-        let cashUpdate = 0;
+    const minutes = ctx.timeMinutes.value + 1;
+    const resourceUpdates = new Map<string, ResourceState>();
+    let cashUpdate = 0;
 
-        batch(() => {
-            ctx.steps.value = produce(ctx.steps.value, (draft) => {
-                for (const step of draft) {
-                    if (step.resourceId === undefined) {
-                        continue;
-                    }
+    batch(() => {
+        ctx.steps.value = produce(ctx.steps.value, (draft) => {
+            for (const step of draft) {
+                if (step.resourceId === undefined) {
+                    continue;
+                }
 
-                    if (step.timer > 0) {
-                        step.timer--;
-                    } else if (step.timer === 0) {
-                        if (step.state === 'prod') {
-                            if (step.finishedProduct) {
-                                if (step.finishedProduct.demand > 0) {
-                                    step.finishedProduct.demand--;
-                                    cashUpdate += step.finishedProduct.cost;
-                                }
-                            } else {
-                                step.leftover++;
-                            }
-                        }
-
-                        if (step.rawMaterial) {
-                            if (step.rawMaterial.amount > 0) {
-                                step.rawMaterial.amount--;
-                                startNewProd(step, resourceUpdates);
+                if (step.timer > 0) {
+                    step.timer--;
+                } else if (step.timer === 0) {
+                    if (step.state === 'prod') {
+                        if (step.finishedProduct) {
+                            if (step.finishedProduct.demand > 0) {
+                                step.finishedProduct.demand--;
+                                cashUpdate += step.finishedProduct.cost;
                             }
                         } else {
-                            const inputIndices = step.inputs.map((id) =>
-                                findStepIndex(ctx, id),
-                            );
-                            const hasInput = inputIndices.reduce(
-                                (acc, value) =>
-                                    acc && draft[value].leftover > 0,
-                                true,
-                            );
+                            step.leftover++;
+                        }
+                    }
 
-                            if (hasInput) {
-                                for (const i of inputIndices) {
-                                    draft[i].leftover--;
-                                    addMaterial(
-                                        ctx.gridState,
-                                        draft[i].position,
-                                        step.position,
-                                        draft[i].resourceType,
-                                        step.productionTime,
-                                    );
-                                }
-                                startNewProd(step, resourceUpdates);
-                            } else {
-                                if (step.state !== 'idle') {
-                                    step.state = 'idle';
-                                    resourceUpdates.set(
-                                        step.resourceId,
-                                        step.state,
-                                    );
-                                }
+                    if (step.rawMaterial) {
+                        if (step.rawMaterial.amount > 0) {
+                            step.rawMaterial.amount--;
+                            startNewProd(step, resourceUpdates);
+                        }
+                    } else {
+                        const inputIndices = step.inputs.map((id) =>
+                            findStepIndex(ctx, id),
+                        );
+                        const hasInput = inputIndices.reduce(
+                            (acc, value) => acc && draft[value].leftover > 0,
+                            true,
+                        );
+
+                        if (hasInput) {
+                            for (const i of inputIndices) {
+                                draft[i].leftover--;
+                                addMaterial(
+                                    ctx,
+                                    ctx.steps.value[i].position,
+                                    deepCopy(step.position),
+                                    ctx.steps.value[i].resourceType,
+                                    step.productionTime,
+                                );
+                            }
+                            startNewProd(step, resourceUpdates);
+                        } else {
+                            if (step.state !== 'idle') {
+                                step.state = 'idle';
+                                resourceUpdates.set(
+                                    step.resourceId,
+                                    step.state,
+                                );
                             }
                         }
                     }
                 }
-            });
-
-            ctx.resources.value = produce(ctx.resources.value, (draft) => {
-                for (const res of draft) {
-                    if (!resourceUpdates.has(res.id)) {
-                        continue;
-                    }
-
-                    res.state = resourceUpdates.get(res.id);
-                }
-            });
-
-            ctx.cash.value += cashUpdate;
+            }
         });
 
-        if (minutes === dayDuration) {
-            changePace(ctx, 0);
-        }
-        ctx.timeMinutes.value = minutes;
-    };
+        ctx.resources.value = produce(ctx.resources.value, (draft) => {
+            for (const res of draft) {
+                if (!resourceUpdates.has(res.id)) {
+                    continue;
+                }
+
+                res.state = resourceUpdates.get(res.id);
+            }
+        });
+
+        ctx.cash.value += cashUpdate;
+    });
+
+    if (minutes === dayDuration) {
+        changePace(ctx, 0);
+    }
+    ctx.timeMinutes.value = minutes;
 }
 
 export function changePace(ctx: FactoryState, pace: number) {
@@ -225,8 +223,8 @@ export function changePace(ctx: FactoryState, pace: number) {
     if (pace > 0) {
         ctx.intervalId = setInterval(
             () => {
-                tick(ctx)();
-                gridTick(ctx.gridState);
+                tick(ctx);
+                gridTick(ctx);
             },
             pace === 1 ? 500 : 200,
         );

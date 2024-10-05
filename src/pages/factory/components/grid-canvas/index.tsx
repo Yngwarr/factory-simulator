@@ -18,7 +18,7 @@ function getCanvasPosition(position: Position, dimensions: Position) {
 
 export function GridCanvas() {
     const appCtx = useContext(appState);
-    const { dimensions, links, gridState } = useContext(factoryState);
+    const { dimensions, links, materials } = useContext(factoryState);
 
     const rect = appCtx.gridRect;
 
@@ -89,7 +89,7 @@ export function GridCanvas() {
                 );
             })}
 
-            {gridState.materials.value.map((mat) => {
+            {materials.value.map((mat) => {
                 const pos = getCanvasPosition(mat.position, dimensions.value);
                 return (
                     <circle

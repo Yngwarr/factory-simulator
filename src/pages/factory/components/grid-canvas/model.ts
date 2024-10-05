@@ -2,8 +2,8 @@ import { v4 as uuid } from 'uuid';
 import type { Position } from '@factory/utils';
 import { signal } from '@preact/signals';
 import { produce } from 'immer';
+import type { FactoryState } from '@factory/model';
 
-export type GridState = ReturnType<typeof createGridState> | null;
 type Material = {
     id: string;
     from: Position;
@@ -28,7 +28,7 @@ function calculatePosition(from: Position, to: Position, progress: number) {
     };
 }
 
-export function tick(ctx: GridState) {
+export function tick(ctx: FactoryState) {
     const mats = ctx.materials.value;
     ctx.materials.value = mats.map((mat) => {
         if (mat.elapsed >= mat.timeTotal) {
@@ -54,7 +54,7 @@ export function tick(ctx: GridState) {
 }
 
 export function addMaterial(
-    ctx: GridState,
+    ctx: FactoryState,
     from: Position,
     to: Position,
     type: number,

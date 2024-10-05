@@ -50,3 +50,7 @@ export function renderTime(minutes: number, format: TimeFormat = 'amount') {
 export function calculateCenter(rect: DOMRect) {
     return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
 }
+
+export function deepCopy(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+}
