@@ -152,6 +152,10 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
             {finishedProduct && (
                 <div
                     className={[
+                        'flex',
+                        'flex-row',
+                        'flex-nowrap',
+                        'gap-x-1',
                         'ik-bg-color',
                         'text-white',
                         'rounded',
