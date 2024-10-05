@@ -1,7 +1,7 @@
-import { FactoryState, factoryState } from '@factory/model';
+import { type FactoryState, factoryState } from '@factory/model';
 import { useContext } from 'preact/hooks';
 import { resourceColor } from '../../../../utils';
-import { Position, type Resource, posEq, renderPosition } from '../../utils';
+import { type Position, type Resource, posEq, renderPosition } from '../../utils';
 import classNames from 'classnames';
 
 type Props = { resource: Resource };

@@ -7,7 +7,14 @@ import {
 } from '@factory/model';
 import { type Position, type ProductionStep, posEq } from '@factory/utils';
 import classNames from 'classnames';
-import { Banknote, ChevronsUp, Package, Pickaxe, Timer } from 'lucide-preact';
+import {
+    Banknote,
+    ChevronsUp,
+    LoaderCircle,
+    Package,
+    Pickaxe,
+    Timer,
+} from 'lucide-preact';
 import { useContext, useState } from 'preact/hooks';
 
 type Props = {
@@ -167,8 +174,8 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                         finishedProduct
                             ? 'translate-y-16'
                             : rawMaterial
-                              ? '-translate-y-16'
-                              : '-translate-y-11'
+                                ? '-translate-y-16'
+                                : '-translate-y-11'
                     }
                     progress={1 - timer / setupTime}
                     resourceType={resourceType}
@@ -210,7 +217,12 @@ export function ProductionStepWidget({ step, dimensions }: Props) {
                 )}
                 onClick={handleClick}
             >
-                <Timer className="inline" />
+                {state === 'prod' ? (
+                    <LoaderCircle className="inline loader" />
+                ) : (
+                    <Timer className="inline" />
+                )}
+
                 {step.productionTime}
             </div>
 

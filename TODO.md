@@ -1,15 +1,11 @@
 # TODO
 
-- [ ] Remove outputs from steps.
-- [ ] Sell finished products.
-- [ ] Visualize setup.
-- [ ] Visualize production.
-- [ ] Visualize resource movement.
+- [ ] Figure out how to fix losing a resource when user moves a prod resource.
 - [ ] Visualize money flow.
 - [ ] Redesign money labels as small badges, maybe?
 - [ ] Add coordinate labels to the grid.
 - [ ] Improve the design of the control panel.
-- [ ] Fix overflow of steps.
+- [ ] Remove outputs from steps.
 
 - [x] Add raw materials to the chain.
 - [x] Improve design of resources.
@@ -21,6 +17,11 @@
 - [x] Add the ability to buy raw materials.
 - [x] Make time movement.
 - [x] Make the production logic.
+- [x] Sell finished products.
+- [x] Visualize setup.
+- [x] Visualize production.
+- [x] Visualize resource movement.
+- [x] Fix overflow of steps.
 
 ## Resource validation
 

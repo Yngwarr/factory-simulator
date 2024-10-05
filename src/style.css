@@ -29,6 +29,20 @@ h1 {
         scale .2s;
 }
 
+@keyframes load {
+    from {
+        rotate: 0
+    }
+
+    to {
+        rotate: 360deg;
+    }
+}
+
+.loader {
+    animation: 1s infinite linear load;
+}
+
 .ik-smooth-filter { transition: filter .5s }
 
 .ik-min-w-14 { min-width: 3.5rem }
