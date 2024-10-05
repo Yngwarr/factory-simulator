@@ -310,6 +310,7 @@ export function assignSelectedResource(
                 if (prevIndex >= 0) {
                     draft[prevIndex].resourceId = undefined;
                     draft[prevIndex].state = 'idle';
+                    ctx.materialsToHide.push(deepCopy(ctx.steps.value[prevIndex].position));
                 }
             }
 

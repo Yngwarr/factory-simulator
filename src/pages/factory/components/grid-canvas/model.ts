@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import type { Position } from '@factory/utils';
+import { posEq, type Position } from '@factory/utils';
 import { signal } from '@preact/signals';
 import { produce } from 'immer';
 import type { FactoryState } from '@factory/model';
@@ -12,12 +12,14 @@ type Material = {
     type: number;
     timeTotal: number;
     elapsed: number;
+    hidden: boolean;
 };
 
 export function createGridState() {
     return {
         materials: signal<Material[]>([]),
-        free: [] as string[],
+        freeMaterials: [] as string[],
+        materialsToHide: [] as Position[]
     };
 }
 
@@ -31,6 +33,12 @@ function calculatePosition(from: Position, to: Position, progress: number) {
 export function tick(ctx: FactoryState) {
     const mats = ctx.materials.value;
     ctx.materials.value = mats.map((mat) => {
+        if (ctx.materialsToHide.some((hiddenPos) => posEq(hiddenPos, mat.to))) {
+            mat.hidden = true;
+            ctx.freeMaterials.push(mat.id);
+            return mat;
+        }
+
         if (mat.elapsed >= mat.timeTotal) {
             return mat;
         }
@@ -44,13 +52,15 @@ export function tick(ctx: FactoryState) {
         );
 
         if (newElapsed >= mat.timeTotal) {
-            ctx.free.push(mat.id);
+            ctx.freeMaterials.push(mat.id);
         }
 
         mat.elapsed = newElapsed;
 
         return mat;
     });
+
+    ctx.materialsToHide = [];
 }
 
 export function addMaterial(
@@ -69,9 +79,10 @@ export function addMaterial(
             timeTotal,
             id: uuid(),
             elapsed: 0,
+            hidden: false
         };
 
-        const freeId = ctx.free.pop();
+        const freeId = ctx.freeMaterials.pop();
 
         if (freeId === undefined) {
             draft.push(newMaterial);
@@ -83,6 +94,7 @@ export function addMaterial(
             draft[freeIndex].type = type;
             draft[freeIndex].timeTotal = timeTotal;
             draft[freeIndex].elapsed = 0;
+            draft[freeIndex].hidden = false;
         }
     });
 }

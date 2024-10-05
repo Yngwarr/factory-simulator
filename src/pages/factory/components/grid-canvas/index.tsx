@@ -2,6 +2,7 @@ import { appState, updateGridRect } from '@/model';
 import { resourceColor } from '@/utils';
 import { factoryState } from '@factory/model';
 import type { Position } from '@factory/utils';
+import classNames from 'classnames';
 import { useContext, useEffect } from 'preact/hooks';
 
 const strokeWidth = 3;
@@ -97,7 +98,10 @@ export function GridCanvas() {
                         cx={`${pos.x}%`}
                         cy={`${pos.y}%`}
                         r={10}
-                        className={resourceColor(mat.type, "fill")}
+                        className={classNames([
+                            resourceColor(mat.type, 'fill'),
+                            mat.hidden && 'hidden',
+                        ])}
                     />
                 );
             })}
