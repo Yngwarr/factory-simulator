@@ -4,7 +4,7 @@ run:
 	npm run dev
 
 build:
-	npm run build -- --outDir docs
+	npm run build -- --outDir docs --base '/factory-simulator/'
 
 preview:
 	npm run preview
