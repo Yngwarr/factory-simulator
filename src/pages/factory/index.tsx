@@ -4,8 +4,9 @@ import { GridCanvas } from './components/grid-canvas';
 import { Heading } from './components/heading';
 import { ProductionChain } from './components/production-chain';
 import { Resources } from './components/resources';
-import { createFactoryState, factoryState } from './model';
 import { defaultFactory } from './defaults';
+import { createFactoryState, factoryState } from './model';
+import { Modals } from './components/modals';
 
 export function FactoryPage() {
     const ctx = useContext(appState);
@@ -40,6 +41,7 @@ export function FactoryPage() {
                 <Resources />
                 <ProductionChain />
                 <GridCanvas />
+                <Modals />
             </div>
         </factoryState.Provider>
     );

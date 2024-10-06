@@ -42,6 +42,11 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
 
     const selectedResourceId = signal<string | null>(null);
 
+    const modals = {
+        dayConcluded: signal(false),
+        weekConcluded: signal(false)
+    };
+
     return {
         resources,
         steps,
@@ -86,6 +91,11 @@ export function createFactoryState(factoryDesc: FactoryDesc) {
         }),
         ...createGridState(),
         moneyLabel: signal<{ id: string; amount: number }[]>([]),
+
+        modals,
+        anyModalOpen: computed<boolean>(() => {
+            return Object.values(modals).some((x) => x.value);
+        }),
     };
 }
 
@@ -174,7 +184,6 @@ function tick(ctx: FactoryState) {
 
                     if (hasInput) {
                         for (const i of inputIndices) {
-                            // draft[i].leftover--;
                             addMaterial(
                                 ctx,
                                 ctx.steps.value[i].position,
@@ -209,6 +218,7 @@ function tick(ctx: FactoryState) {
 
     if (minutes === dayDuration) {
         changePace(ctx, 0);
+        ctx.modals.dayConcluded.value = true;
     }
     ctx.timeMinutes.value = minutes;
 }
