@@ -16,6 +16,10 @@ export function App() {
                             component={FactoryPage}
                         />
                         <Route
+                            path="/factory-simulator/"
+                            component={FactoryPage}
+                        />
+                        <Route
                             default
                             component={NotFound}
                         />
