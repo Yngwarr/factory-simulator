@@ -4,7 +4,7 @@ run:
 	npm run dev
 
 build:
-	npm run build
+	npm run build -- --outDir docs
 
 preview:
 	npm run preview
