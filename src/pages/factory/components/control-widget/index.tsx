@@ -20,6 +20,7 @@ function ControlButton({ children, pace, hold = true }) {
                 'hover:bg-gray-700',
                 'active:bg-gray-600',
                 'active:scale-90',
+                'text-white',
                 hold && ctx.pace.value === pace && 'scale-90'
             ])}
             onClick={handleClick}
