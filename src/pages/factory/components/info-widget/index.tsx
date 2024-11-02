@@ -33,7 +33,7 @@ export function InfoWidget() {
         useContext(factoryState);
 
     return (
-        <div className="flex flex-row flex-nowrap text-xl gap-x-5 border-2 rounded-md p-2">
+        <div className="flex flex-row flex-nowrap text-xl gap-x-5 border-2 rounded-md p-2 text-white">
             <div>Week {week}</div>
             <div>Day: {day}</div>
             <div>{renderTime(timeMinutes.value, 'timer')}</div>
